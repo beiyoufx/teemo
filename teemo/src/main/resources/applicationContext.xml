@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Enable annotation configuration -->
+    <context:annotation-config />
+    <!-- Scan packages for Spring annotations -->
+    <context:component-scan base-package="com.teemo" />
+
+    <import resource="spring-jdbc.xml" />
+    <!--<bean id="updateUserPwdLogicBean" class="com.teemo.app.logic.UpdateUserPwdLogicServer" />-->
+
+    <!--&lt;!&ndash; 配置业务逻辑池 &ndash;&gt;-->
+    <!--<bean id="logicExecuteWorkerEnginBean" class="com.teemo.app.logic.LogicExecuteWorkerEngine">-->
+        <!--<property name="requestBeanTrans">-->
+            <!--<map>-->
+                <!--<entry key="1302">-->
+                    <!--<value>com.teemo.app.bean.UpdateUserPwdRequestBean</value>-->
+                <!--</entry>-->
+            <!--</map>-->
+        <!--</property>-->
+        <!--<property name="logicPool">-->
+            <!--<map>-->
+                <!--<entry key="1302">-->
+                    <!--<ref bean="updateUserPwdLogicBean" />-->
+                <!--</entry>-->
+            <!--</map>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 配置接口传输操作协议对象 &ndash;&gt;-->
+    <!--<bean id="transmissionBean" class="com.teemo.app.logic.Transmission">-->
+    <!--</bean>-->
+
+</beans>
