@@ -19,13 +19,16 @@ import java.util.Date;
 @Table(name = "user_last_online")
 public class UserLastOnline extends BaseEntity {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
     /**
      * 在线的用户
      */
     @Column(name = "user_id", nullable = false)
     private Long userId;
-
-    @Column(name = "username")
+    @Column(name = "username", length = 32)
     private String username;
 
     /**
@@ -63,9 +66,9 @@ public class UserLastOnline extends BaseEntity {
      * 最后退出时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "last_stop_time")
+    @Column(name = "last_quit_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date lastStopTime;
+    private Date lastQuitTime;
 
     /**
      * 登录次数
@@ -79,6 +82,13 @@ public class UserLastOnline extends BaseEntity {
     @Column(name = "total_online_time")
     private Long totalOnlineTime = 0L;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUid() {
         return uid;
@@ -152,12 +162,12 @@ public class UserLastOnline extends BaseEntity {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public Date getLastStopTime() {
-        return lastStopTime;
+    public Date getLastQuitTime() {
+        return lastQuitTime;
     }
 
-    public void setLastStopTime(Date lastStopTime) {
-        this.lastStopTime = lastStopTime;
+    public void setLastQuitTime(Date lastQuitTime) {
+        this.lastQuitTime = lastQuitTime;
     }
 
     public void incLoginCount() {
@@ -165,33 +175,8 @@ public class UserLastOnline extends BaseEntity {
     }
 
     public void incTotalOnlineTime() {
-        long onlineTime = getLastStopTime().getTime() - getLastLoginTime().getTime();
+        long onlineTime = getLastQuitTime().getTime() - getLastLoginTime().getTime();
         setTotalOnlineTime(getTotalOnlineTime() + onlineTime / 1000);
-    }
-
-
-    public static final UserLastOnline fromUserOnline(UserOnline online) {
-        UserLastOnline lastOnline = new UserLastOnline();
-        lastOnline.setHost(online.getHost());
-        lastOnline.setUserId(online.getUserId());
-        lastOnline.setUsername(online.getUsername());
-        lastOnline.setUserAgent(online.getUserAgent());
-        lastOnline.setSystemHost(online.getSystemHost());
-        lastOnline.setUid(String.valueOf(online.getId()));
-        lastOnline.setLastLoginTime(online.getStartTimestamp());
-        lastOnline.setLastStopTime(online.getLastAccessTime());
-        return lastOnline;
-    }
-
-    public static final void merge(UserLastOnline from, UserLastOnline to) {
-        to.setHost(from.getHost());
-        to.setUserId(from.getUserId());
-        to.setUsername(from.getUsername());
-        to.setUserAgent(from.getUserAgent());
-        to.setSystemHost(from.getSystemHost());
-        to.setUid(String.valueOf(from.getUid()));
-        to.setLastLoginTime(from.getLastLoginTime());
-        to.setLastStopTime(from.getLastStopTime());
     }
 
 }
