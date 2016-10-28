@@ -65,7 +65,7 @@
         </init-param>
         <init-param>
             <param-name>principalSessionName</param-name>
-            <param-value>SESSION_SYS_USER</param-value>
+            <param-value>SESSION_USER</param-value>
         </init-param>
         <init-param>
             <param-name>loginUsername</param-name>
