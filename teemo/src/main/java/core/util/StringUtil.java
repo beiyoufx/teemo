@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author yongjie.teng
  * @version 1.0
  * @date 16-10-20
- * @email yongjie.teng@zkh360.com
+ * @email yongjie.teng@foxmail.com
  * @package core.util
  * @project teemo
  */

@@ -5,7 +5,7 @@ package com.teemo.core.entity;
  * @author yongjie.teng
  * @version 1.0
  * @date 16-10-21
- * @email yongjie.teng@zkh360.com
+ * @email yongjie.teng@foxmail.com
  * @package com.teemo.core.entity
  * @project teemo
  */

@@ -1,5 +1,6 @@
 package com.teemo.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
 
@@ -13,46 +14,81 @@ import java.util.Set;
  * @author yongjie.teng
  * @version 1.0
  * @date 16-10-21
- * @email yongjie.teng@zkh360.com
+ * @email yongjie.teng@foxmail.com
  * @package com.teemo.entity
  * @project teemo
  */
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity implements LogicDeletable {
+    /**
+     * 自增主键ID
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
+
+    /**
+     * 用户名（不可用于登陆，不唯一）
+     */
     @Column(name = "username", length = 32, nullable = false)
     private String username;
+
+    /**
+     * 用户密码
+     */
     @Column(name = "password", length = 32, nullable = false)
+    @JSONField(serialize = false)
     private String password;
     /**
      * 加密密码时用的盐
      */
     @Column(name = "salt", length = 8, nullable = false)
+    @JSONField(serialize = false)
     private String salt;
+
+    /**
+     * 用户邮箱（用于登陆，唯一）
+     */
     @Column(name = "email", length = 32, nullable = false, unique = true)
     private String email;
+
+    /**
+     * 用户手机号码
+     */
     @Column(name = "mobile_phone", length = 16, nullable = false)
     private String mobilePhone;
+
     /**
      * 用户所属部门的key
      */
     @Column(name = "department_key", length = 8)
     private String departmentKey;
+
+    /**
+     * 创建该用户的时间
+     */
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date createTime;
+
+    /**
+     * 上次变更用户信息的时间
+     */
     @Column(name = "modify_time")
     @Temporal(TemporalType.TIMESTAMP)
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date modifyTime;
+
     /**
      * 用户的逻辑删除状态
      */
     @Column(name = "deleted")
+    @JSONField(serialize = false)
     private Boolean deleted = Boolean.FALSE;
+
     /**
      * 用户的角色关系
      */

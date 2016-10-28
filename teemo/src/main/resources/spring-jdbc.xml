@@ -75,7 +75,7 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <tx:annotation-driven transaction-manager="transactionManager" />
+    <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
 
     <!-- 此注释里代码的作用是应用服务器每次启动都生成索引。在SystemInitListener里执行。可配置，不影响框架使用。 -->
     <!-- <bean id="informationService" class="com.teemo.service.sys.impl.InformationServiceImpl" /> -->

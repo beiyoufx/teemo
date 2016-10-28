@@ -1,5 +1,6 @@
 package com.teemo.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.teemo.core.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,18 +12,21 @@ import java.util.Date;
  * @author yongjie.teng
  * @version 1.0
  * @date 16-10-26
- * @email yongjie.teng@zkh360.com
+ * @email yongjie.teng@foxmail.com
  * @package com.teemo.entity
  * @project teemo
  */
 @Entity
 @Table(name = "user_last_online")
 public class UserLastOnline extends BaseEntity {
-
+    /**
+     * 自增主键
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
+
     /**
      * 在线的用户
      */
@@ -57,17 +61,17 @@ public class UserLastOnline extends BaseEntity {
     /**
      * 最后登录时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "last_login_time")
     @Temporal(TemporalType.TIMESTAMP)
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date lastLoginTime;
 
     /**
      * 最后退出时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "last_quit_time")
     @Temporal(TemporalType.TIMESTAMP)
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date lastQuitTime;
 
     /**

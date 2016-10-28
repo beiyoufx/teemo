@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <!-- 按照每天生成日志文件 -->
+    <appender name="BASE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.home}/logs/teemo/teemo.log" />
+        <param name="encoding" value="utf-8"></param>
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c %x - %m%n" />
+        </layout>
+    </appender>
+
+    <!-- 异步输出 -->
+    <appender name="ASYNC_BASE" class="org.apache.log4j.AsyncAppender">
+        <param name="BufferSize" value="10" />
+        <appender-ref ref="BASE" />
+    </appender>
+
+    <!-- 输出到控制台中 -->
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c %x - %m%n" />
+        </layout>
+    </appender>
+
+    <!-- 基本日志级别为INFO -->
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="BASE" />
+    </root>
+</log4j:configuration>

@@ -9,23 +9,42 @@ import javax.persistence.*;
  * @author yongjie.teng
  * @version 1.0
  * @date 16-10-21
- * @email yongjie.teng@zkh360.com
+ * @email yongjie.teng@foxmail.com
  * @package com.teemo.entity
  * @project teemo
  */
 @Entity
 @Table(name = "department")
 public class Department extends BaseEntity implements LogicDeletable {
+    /**
+     * 自增主键
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
+
+    /**
+     * 部门key
+     */
     @Column(name = "department_key", length = 8, nullable = false, unique = true)
     private String departmentKey;
+
+    /**
+     * 部门名称
+     */
     @Column(name = "department_value", length = 32, nullable = false)
     private String departmentValue;
+
+    /**
+     * 部门描述
+     */
     @Column(name = "description", length = 128)
     private String description;
+
+    /**
+     * 上级部门key
+     */
     @Column(name = "parent_department_key")
     private String parentDepartmentKey;
 

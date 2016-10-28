@@ -13,6 +13,7 @@
         <spring.version>4.2.2.RELEASE</spring.version>
         <hibernate.version>5.0.2.Final</hibernate.version>
         <mysql.connector.version>5.1.22</mysql.connector.version>
+        <druid.version>1.0.26</druid.version>
         <project.version>1.0.0-SNAPSHOT</project.version>
         <sitemesh.version>2.4.2</sitemesh.version>
         <lib.common.version>2.0.0-SNAPSHOT</lib.common.version>
@@ -114,7 +115,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.26</version>
+            <version>${druid.version}</version>
         </dependency>
 
         <!-- jdbc driver -->

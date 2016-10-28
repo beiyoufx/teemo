@@ -8,21 +8,36 @@ import javax.persistence.*;
  * @author yongjie.teng
  * @version 1.0
  * @date 16-10-21
- * @email yongjie.teng@zkh360.com
+ * @email yongjie.teng@foxmail.com
  * @package com.teemo.entity
  * @project teemo
  */
 @Entity
 @Table(name = "role")
 public class Role extends BaseEntity {
+    /**
+     * 自增主键
+     */
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
+
+    /**
+     * 角色key
+     */
     @Column(name = "role_key", length = 8, nullable = false, unique = true)
     private String roleKey;
+
+    /**
+     * 角色名称
+     */
     @Column(name = "role_value", length = 32, nullable = false)
     private String roleValue;
+
+    /**
+     * 角色描述
+     */
     @Column(name = "description", length = 128)
     private String description;
 
