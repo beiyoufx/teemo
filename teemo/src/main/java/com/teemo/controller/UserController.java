@@ -5,6 +5,7 @@ import core.controller.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,7 +29,13 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public void home(HttpServletResponse response) throws IOException {
+    public void list(HttpServletResponse response) throws IOException {
         writeJSON(response, userService.findAll());
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public void home(HttpServletResponse response,
+                     @PathVariable Long id) throws IOException {
+        writeJSON(response, userService.get(id));
     }
 }
