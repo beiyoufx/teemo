@@ -1,5 +1,11 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package com.teemo.entity;
 
+import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 
 import javax.persistence.*;
@@ -14,7 +20,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "role")
+@JSONType(orders = {"id", "roleKey", "roleValue", "description"})
 public class Role extends BaseEntity {
+    private static final long serialVersionUID = -367123952261959248L;
     /**
      * 自增主键
      */
@@ -26,7 +34,7 @@ public class Role extends BaseEntity {
     /**
      * 角色key
      */
-    @Column(name = "role_key", length = 8, nullable = false, unique = true)
+    @Column(name = "role_key", length = 32, nullable = false, unique = true)
     private String roleKey;
 
     /**

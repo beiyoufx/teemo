@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package core.util;
 
 import java.lang.reflect.ParameterizedType;
@@ -16,7 +21,7 @@ public class ReflectUtil {
      * 得到指定类型的泛型实参
      * @param clazz
      * @param <T>
-     * @return
+     * @return {@link Class}
      */
     public static <T> Class<T> findParameterizedType(Class<?> clazz) {
         Type parameterizedType = clazz.getGenericSuperclass();

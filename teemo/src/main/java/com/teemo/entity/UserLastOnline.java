@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -19,6 +24,7 @@ import java.util.Date;
 @Entity
 @Table(name = "user_last_online")
 public class UserLastOnline extends BaseEntity {
+    private static final long serialVersionUID = -7484912503446573789L;
     /**
      * 自增主键
      */

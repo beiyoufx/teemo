@@ -10,11 +10,25 @@
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c %x - %m%n" />
         </layout>
     </appender>
-
     <!-- 异步输出 -->
     <appender name="ASYNC_BASE" class="org.apache.log4j.AsyncAppender">
-        <param name="BufferSize" value="10" />
+        <param name="BufferSize" value="1024" />
         <appender-ref ref="BASE" />
+    </appender>
+
+    <!-- 用户操作日志，日滚 -->
+    <appender name="USER_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.home}/logs/teemo/user/user.log" />
+        <param name="encoding" value="utf-8"></param>
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c %x - %m%n" />
+        </layout>
+    </appender>
+    <!-- 异步输出 -->
+    <appender name="ASYNC_USER_LOG" class="org.apache.log4j.AsyncAppender">
+        <param name="BufferSize" value="1024" />
+        <appender-ref ref="USER_LOG" />
     </appender>
 
     <!-- 输出到控制台中 -->
@@ -28,6 +42,11 @@
     <root>
         <level value="INFO" />
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="BASE" />
+        <appender-ref ref="ASYNC_BASE" />
     </root>
+    <logger name="USER_LOG" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_USER_LOG" />
+    </logger>
 </log4j:configuration>

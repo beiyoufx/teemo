@@ -1,4 +1,9 @@
-package core.controller;
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
+package core.web.controller;
 
 import com.alibaba.fastjson.JSON;
 import core.support.CustomDateEditor;
@@ -14,7 +19,7 @@ import java.util.Date;
  * @version 1.0
  * @date 16-10-27
  * @email yongjie.teng@foxmail.com
- * @package core.controller
+ * @package core.web.controller
  * @project teemo
  */
 public abstract class BaseController {

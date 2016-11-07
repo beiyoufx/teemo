@@ -1,5 +1,11 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package com.teemo.entity;
 
+import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
 
@@ -15,7 +21,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "department")
+@JSONType(orders = {"id", "departmentKey", "departmentValue", "parentDepartmentKey", "description"})
 public class Department extends BaseEntity implements LogicDeletable {
+    private static final long serialVersionUID = -359007150299161832L;
     /**
      * 自增主键
      */
@@ -27,7 +35,7 @@ public class Department extends BaseEntity implements LogicDeletable {
     /**
      * 部门key
      */
-    @Column(name = "department_key", length = 8, nullable = false, unique = true)
+    @Column(name = "department_key", length = 32, nullable = false, unique = true)
     private String departmentKey;
 
     /**

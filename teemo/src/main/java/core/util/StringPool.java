@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package core.util;
 
 /**
@@ -67,6 +72,7 @@ public class StringPool {
     public static final String OPEN_PARENTHESIS = "(";
     public static final String OS_EOL = System.getProperty("line.separator");
     public static final String PERCENT = "%";
+    public static final String DOT = ".";
     public static final String PERIOD = ".";
     public static final String PIPE = "|";
     public static final String PLUS = "+";

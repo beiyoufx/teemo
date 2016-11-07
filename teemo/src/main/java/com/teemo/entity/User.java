@@ -1,6 +1,12 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
 
@@ -20,7 +26,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
+@JSONType(orders = {"id", "username", "email", "mobilePhone", "departmentKey", "createTime", "modifyTime", "roles"},
+            ignores = {"password", "salt", "deleted"})
 public class User extends BaseEntity implements LogicDeletable {
+    private static final long serialVersionUID = 2225038507614711877L;
     /**
      * 自增主键ID
      */
@@ -39,13 +48,11 @@ public class User extends BaseEntity implements LogicDeletable {
      * 用户密码
      */
     @Column(name = "password", length = 32, nullable = false)
-    @JSONField(serialize = false)
     private String password;
     /**
      * 加密密码时用的盐
      */
     @Column(name = "salt", length = 8, nullable = false)
-    @JSONField(serialize = false)
     private String salt;
 
     /**
@@ -63,7 +70,7 @@ public class User extends BaseEntity implements LogicDeletable {
     /**
      * 用户所属部门的key
      */
-    @Column(name = "department_key", length = 8)
+    @Column(name = "department_key", length = 32)
     private String departmentKey;
 
     /**
@@ -86,7 +93,6 @@ public class User extends BaseEntity implements LogicDeletable {
      * 用户的逻辑删除状态
      */
     @Column(name = "deleted")
-    @JSONField(serialize = false)
     private Boolean deleted = Boolean.FALSE;
 
     /**

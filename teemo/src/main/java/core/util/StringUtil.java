@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package core.util;
 
 import java.util.ArrayList;
@@ -55,8 +60,8 @@ public class StringUtil {
 
     /**
      * unicode转为本地字符集
-     * @ param String Unicode编码的字符串
-     * @ return String
+     * @param s Unicode编码的字符串
+     * @return String
      */
     public static String unicode2native(String s) {
         if(s==null || s.length()==0) {

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2016- https://github.com/beiyoufx
+ *
+ * Licensed under the GPL-3.0
+ */
 package core.support;
 
 import java.beans.PropertyEditorSupport;
