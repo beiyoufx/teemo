@@ -6,6 +6,7 @@
 package core.web.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import core.support.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,6 +35,6 @@ public abstract class BaseController {
 
     protected void writeJSON(HttpServletResponse response, Object obj) throws IOException {
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(JSON.toJSONString(obj));
+        response.getWriter().write(JSON.toJSONString(obj, SerializerFeature.WriteMapNullValue));
     }
 }

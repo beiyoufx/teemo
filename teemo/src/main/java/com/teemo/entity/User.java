@@ -26,7 +26,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
-@JSONType(orders = {"id", "username", "email", "mobilePhone", "departmentKey", "createTime", "modifyTime", "roles"},
+@JSONType(orders = {"id", "username", "nickname", "email", "mobilePhone", "status", "departmentKey", "createTime", "modifyTime", "roles"},
             ignores = {"password", "salt", "deleted"})
 public class User extends BaseEntity implements LogicDeletable {
     private static final long serialVersionUID = 2225038507614711877L;
@@ -39,10 +39,16 @@ public class User extends BaseEntity implements LogicDeletable {
     private Long id;
 
     /**
-     * 用户名（不可用于登陆，不唯一）
+     * 用户名（可用于登陆，唯一）
      */
     @Column(name = "username", length = 32, nullable = false)
     private String username;
+
+    /**
+     * 用户昵称（不可用于登陆，不唯一）
+     */
+    @Column(name = "nickname", length = 32, nullable = false)
+    private String nickname;
 
     /**
      * 用户密码
@@ -96,6 +102,13 @@ public class User extends BaseEntity implements LogicDeletable {
     private Boolean deleted = Boolean.FALSE;
 
     /**
+     * 用户状态
+     */
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private UserStatus status = UserStatus.normal;
+
+    /**
      * 用户的角色关系
      */
     @ManyToMany(fetch = FetchType.EAGER)
@@ -116,6 +129,14 @@ public class User extends BaseEntity implements LogicDeletable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getPassword() {
@@ -189,6 +210,14 @@ public class User extends BaseEntity implements LogicDeletable {
         this.deleted = Boolean.TRUE;
     }
 
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -196,4 +225,5 @@ public class User extends BaseEntity implements LogicDeletable {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
 }

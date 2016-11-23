@@ -9,6 +9,8 @@ import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author yongjie.teng
@@ -20,7 +22,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "role")
-@JSONType(orders = {"id", "roleKey", "roleValue", "description"})
+@JSONType(orders = {"id", "roleKey", "roleValue", "description", "available"})
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -367123952261959248L;
     /**
@@ -48,6 +50,18 @@ public class Role extends BaseEntity {
      */
     @Column(name = "description", length = 128)
     private String description;
+
+    /**
+     * 可用状态
+     */
+    @Column(name = "available")
+    private Boolean available = Boolean.FALSE;
+
+    /**
+     * 角色与资源关系
+     */
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "role")
+    private Set<RoleResourcePermission> resourcePermissions = new HashSet<RoleResourcePermission>();
 
     public Long getId() {
         return id;
@@ -79,5 +93,21 @@ public class Role extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public Set<RoleResourcePermission> getResourcePermissions() {
+        return resourcePermissions;
+    }
+
+    public void setResourcePermissions(Set<RoleResourcePermission> resourcePermissions) {
+        this.resourcePermissions = resourcePermissions;
     }
 }

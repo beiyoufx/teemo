@@ -12,6 +12,9 @@
     <!-- Scan packages for Spring annotations -->
     <context:component-scan base-package="com.teemo" />
 
+    <bean id="springUtil" class="core.util.SpringUtil"/>
+
+    <import resource="spring-shiro.xml"/>
     <import resource="spring-jdbc.xml" />
     <!--<bean id="updateUserPwdLogicBean" class="com.teemo.app.logic.UpdateUserPwdLogicServer" />-->
 
@@ -36,5 +39,18 @@
     <!--&lt;!&ndash; 配置接口传输操作协议对象 &ndash;&gt;-->
     <!--<bean id="transmissionBean" class="com.teemo.app.logic.Transmission">-->
     <!--</bean>-->
+
+    <!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- 在web环境中一定要定位到classpath 否则默认到当前web应用下找  -->
+                <value>classpath:messages</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="60"/>
+    </bean>
 
 </beans>

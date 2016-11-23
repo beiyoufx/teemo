@@ -21,7 +21,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "department")
-@JSONType(orders = {"id", "departmentKey", "departmentValue", "parentDepartmentKey", "description"})
+@JSONType(orders = {"id", "departmentKey", "departmentValue", "parentId", "description"})
 public class Department extends BaseEntity implements LogicDeletable {
     private static final long serialVersionUID = -359007150299161832L;
     /**
@@ -51,10 +51,10 @@ public class Department extends BaseEntity implements LogicDeletable {
     private String description;
 
     /**
-     * 上级部门key
+     * 上级部门ID
      */
-    @Column(name = "parent_department_key")
-    private String parentDepartmentKey;
+    @Column(name = "parent_id")
+    private String parentId;
 
     public Long getId() {
         return id;
@@ -88,12 +88,12 @@ public class Department extends BaseEntity implements LogicDeletable {
         this.description = description;
     }
 
-    public String getParentDepartmentKey() {
-        return parentDepartmentKey;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setParentDepartmentKey(String parentDepartmentKey) {
-        this.parentDepartmentKey = parentDepartmentKey;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     private Boolean deleted = Boolean.FALSE;

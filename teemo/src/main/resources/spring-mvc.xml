@@ -13,20 +13,20 @@
 
     <mvc:resources location="/static/" mapping="/static/**"/>
 
-    <context:component-scan base-package="com.teemo.controller" />
+    <context:component-scan base-package="com.teemo.web.controller" />
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
-    <!--&lt;!&ndash; Enable annotation-based controllers using @Controller annotations &ndash;&gt;-->
-    <!--<bean id="annotationUrlMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">-->
-        <!--<property name="interceptors" ref="currentUserInterceptor"/>-->
-    <!--</bean>-->
+    <!-- Enable annotation-based controllers using @Controller annotations -->
+    <bean id="annotationUrlMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors" ref="currentUserInterceptor"/>
+    </bean>
 
-    <!--&lt;!&ndash; Enable Shiro Annotations for Spring-configured beans.  Only run after the lifecycleBeanProcessor has run &ndash;&gt;-->
-    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>-->
-    <!--<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
-        <!--<property name="securityManager" ref="securityManager"/>-->
-    <!--</bean>-->
+    <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after the lifecycleBeanProcessor has run -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
 
     <!--
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
