@@ -1,11 +1,7 @@
-<%@ page import="com.teemo.entity.User" %>
-<%--
-  User: yongjie.teng
-  Date: 16-11-23
-  Time: 下午6:47
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="../core.jsp"/>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 
@@ -24,6 +20,7 @@
     <![endif]-->
 
     <link rel="shortcut icon" href="${staticPath}/static/favicon.ico">
+    <link rel="bookmark" href="${staticPath}/static/favicon.ico"/>
     <link href="${staticPath}/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
     <link href="${staticPath}/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="${staticPath}/static/css/animate.css" rel="stylesheet">
@@ -503,7 +500,7 @@
                 </li>
             </ul>
         </div>
-        <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+        <a href="${ctx}/logout" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
     </div>
     <div class="row J_mainContent" id="content-main">
         <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v1.html?v=4.0" frameborder="0" data-id="index_v1.html" seamless></iframe>
@@ -619,7 +616,7 @@
         <div class="sidebar-message">
             <a href="#">
                 <div class="pull-left text-center">
-                    <img alt="image" class="img-circle message-avatar" src="img/a1.jpg">
+                    <img alt="image" class="img-circle message-avatar" src="${staticPath}/static/img/a1.jpg">
 
                     <div class="m-t-xs">
                         <i class="fa fa-star text-warning"></i>

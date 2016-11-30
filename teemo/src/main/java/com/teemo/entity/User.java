@@ -9,6 +9,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
+@DynamicInsert(value = true)
 @JSONType(orders = {"id", "username", "nickname", "email", "mobilePhone", "status", "departmentKey", "createTime", "modifyTime", "roles"},
             ignores = {"password", "salt", "deleted"})
 public class User extends BaseEntity implements LogicDeletable {
@@ -70,7 +72,7 @@ public class User extends BaseEntity implements LogicDeletable {
     /**
      * 用户手机号码
      */
-    @Column(name = "mobile_phone", length = 16, nullable = false)
+    @Column(name = "mobile_phone", length = 16)
     private String mobilePhone;
 
     /**

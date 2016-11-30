@@ -5,13 +5,15 @@
  */
 package com.teemo.dto;
 
+import java.io.Serializable;
+
 /**
  * @author yongjie.teng
  * @date 16-11-7 下午7:07
  * @email yongjie.teng@foxmail.com
  * @package com.teemo.dto
  */
-public class Result {
+public class Result implements Serializable {
     private int code;
     private String message;
 

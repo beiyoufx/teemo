@@ -6,6 +6,8 @@
 package com.teemo.web.controller;
 
 import com.teemo.dto.Result;
+import com.teemo.entity.User;
+import com.teemo.service.UserService;
 import core.web.controller.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,6 +32,9 @@ import java.io.IOException;
  */
 @Controller
 public class LoginController extends BaseController {
+    @Resource
+    private UserService userService;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String goLogin() {
         return "login";
@@ -54,6 +60,31 @@ public class LoginController extends BaseController {
             result = new Result(-3, "账号被锁定");
         } catch (Exception e) {
             result = new Result(-4, "未知错误");
+        }
+        writeJSON(response, result);
+    }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String goRegister() {
+        return "register";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public void register(HttpServletResponse response,
+                         User user) throws IOException {
+        Result result;
+        user = userService.register(user);
+        if (user.getId() != null) {
+            result = new Result(1, "注册成功");
+        } else {
+            result = new Result(-1, "注册失败");
         }
         writeJSON(response, result);
     }

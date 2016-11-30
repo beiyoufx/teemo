@@ -38,6 +38,16 @@ public class UserService extends BaseService<User> {
         this.dao = userDao;
     }
 
+    public User register(User user) {
+        String salt = randomSalt();
+        user.setSalt(salt);
+        String password = encryptPassword(user.getUsername(), user.getPassword(), salt);
+        user.setPassword(password);
+        Long id = (Long) save(user);
+        user.setId(id);
+        return user;
+    }
+
     public User login(String username, String password) throws UserNotExistsException, UserPasswordIncorrectnessException, UserBlockedException {
         if (!StringUtil.isNotEmpty(username, password)) {
             UserLogUtil.log(username,"LoginError", "username is empty.");

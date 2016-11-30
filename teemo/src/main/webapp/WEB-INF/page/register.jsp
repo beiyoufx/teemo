@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Teemo后台管理 - 登录</title>
+    <title>Teemo后台管理 - 注册</title>
     <meta name="keywords" content="teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能。">
     <meta name="description" content="teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能。">
 
@@ -21,37 +21,44 @@
     <link href="${staticPath}/static/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="${staticPath}/static/css/animate.css" rel="stylesheet">
     <link href="${staticPath}/static/css/style.css?v=4.1.0" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html" />
-    <![endif]-->
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
 </head>
 
 <body class="gray-bg">
 
-<div class="middle-box text-center loginscreen  animated fadeInDown">
+<div class="middle-box text-center loginscreen   animated fadeInDown">
     <div>
         <div>
 
             <h1 class="logo-name">Teemo</h1>
 
         </div>
-        <h3>欢迎使用 Teemo</h3>
-
-        <form class="m-t" id="validationLoginFrom" action="#" method="post">
+        <h3>欢迎注册 Teemo</h3>
+        <p>创建一个Teemo新账户</p>
+        <form class="m-t" id="validationRegisterFrom" action="${ctx}/login" method="post">
             <div class="form-group">
-                <input id="username" name="username" type="text" class="form-control" placeholder="请输入用户名/邮箱/手机号" maxlength="32">
+                <input id="username" name="username" type="text" class="form-control" placeholder="请输入用户名" maxlength="32">
             </div>
             <div class="form-group">
                 <input id="password" name="password" type="password" class="form-control" placeholder="请输入密码" maxlength="16">
             </div>
-            <div class="text-left">
-                <label><input id="rememberMe" name="rememberMe" type="checkbox" class="i-checks">自动登录</label>
+            <div class="form-group">
+                <input id="repeatPassword" name="repeatPassword" type="password" class="form-control" placeholder="请输入确认密码" maxlength="16">
             </div>
+            <div class="form-group">
+                <input id="nickname" name="nickname" type="text" class="form-control" placeholder="请输入姓名" maxlength="32">
+            </div>
+            <div class="form-group">
+                <input id="email" name="email" type="email" class="form-control" placeholder="请输入邮箱地址" maxlength="32">
+            </div>
+            <div class="form-group text-left">
+                <label class="no-padding checkbox i-checks"><input id="agree" name="agree" type="checkbox"><i></i> 我同意注册协议</label>
+                <label id="agree-error" class="error" for="agree"></label>
+            </div>
+            <button id="registerButton" type="button" class="btn btn-primary block full-width m-b">注 册</button>
 
-            <button id="loginButton" type="button" class="btn btn-primary block full-width m-b">登 录</button>
-
-            <p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="${ctx}/register">注册一个新账号</a>
+            <p class="text-muted text-center"><small>已经有账户了？</small><a href="${ctx}/login">点此登录</a>
             </p>
 
         </form>
@@ -66,10 +73,8 @@
 <script src="${staticPath}/static/js/login.js"></script>
 <!-- iCheck -->
 <script src="${staticPath}/static/js/plugins/iCheck/icheck.min.js"></script>
-<!-- layer javascript -->
-<script src="${staticPath}/static/js/plugins/layer/layer.min.js"></script>
 <script>
-    $().ready(function () {
+    $(document).ready(function () {
         $('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',
             radioClass: 'iradio_square-green'
@@ -78,5 +83,5 @@
 </script>
 
 </body>
-
 </html>
+
