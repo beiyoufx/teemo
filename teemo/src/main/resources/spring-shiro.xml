@@ -15,7 +15,7 @@
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/sys/user/home"/>
-        <property name="unauthorizedUrl" value="/goUnauthorized"/>
+        <property name="unauthorizedUrl" value="/unauthorized"/>
         <property name="filters">
             <util:map>
                 <entry key="authc">
@@ -31,7 +31,6 @@
                 /logout = logout
                 /register = anon
                 /retrievePassword = anon
-                /**/** = authc
                 /** = authc
             </value>
         </property>

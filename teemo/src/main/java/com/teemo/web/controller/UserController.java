@@ -17,29 +17,23 @@ import core.support.search.SearchType;
 import core.support.search.Searchable;
 import core.web.controller.BaseController;
 import com.teemo.core.util.UserLogUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * @author yongjie.teng
- * @version 1.0
  * @date 16-10-27
  * @email yongjie.teng@foxmail.com
  * @package com.teemo.web.controller
- * @project teemo
  */
 @Controller
 @RequestMapping("/sys/user")
@@ -48,18 +42,13 @@ public class UserController extends BaseController {
     @Resource
     private UserService userService;
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ModelAndView mav = new ModelAndView();
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        User user = (User) session.getAttribute(Constants.CURRENT_USER);
-        if (user != null) {
-            mav.setViewName("admin/home");
-        }
-        return mav;
+    @RequiresPermissions(value = "sys:user:view")
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String main(HttpServletResponse response) throws IOException {
+        return "admin/user/main";
     }
 
+    @RequiresPermissions(value = "sys:user:view")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public void get(HttpServletResponse response,
                      @PathVariable Long id) throws IOException {
@@ -68,6 +57,7 @@ public class UserController extends BaseController {
         writeJSON(response, user);
     }
 
+    @RequiresPermissions(value = "sys:user:view")
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     public void find(HttpServletResponse response) throws IOException {
         Searchable searchable = SearchRequest.newSearchRequest(new Sort(Sort.Direction.desc, "id"), PageRequest.newPageRequest(0, 10));
@@ -78,6 +68,7 @@ public class UserController extends BaseController {
         writeJSON(response, userService.find(searchable));
     }
 
+    @RequiresPermissions(value = "sys:user:update")
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public void update(HttpServletResponse response) throws IOException {
         Searchable searchable = SearchRequest.newSearchRequest();

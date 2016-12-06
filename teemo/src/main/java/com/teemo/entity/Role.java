@@ -22,7 +22,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "role")
-@JSONType(orders = {"id", "roleKey", "roleValue", "description", "available"})
+@JSONType(orders = {"id", "roleKey", "roleValue", "description", "available"}, ignores = {"resourcePermissions"})
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -367123952261959248L;
     /**

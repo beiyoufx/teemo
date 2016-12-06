@@ -5,6 +5,7 @@
  */
 package com.teemo.web.controller;
 
+import com.teemo.core.Constants;
 import com.teemo.dto.Result;
 import com.teemo.entity.User;
 import com.teemo.service.UserService;
@@ -14,10 +15,12 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +34,19 @@ import java.io.IOException;
  * @package com.teemo.web.controller
  */
 @Controller
-public class LoginController extends BaseController {
+public class MainController extends BaseController {
     @Resource
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String goLogin() {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        // 已登录状态直接跳转home页
+        if (user != null) {
+            return "redirect:/home";
+        }
         return "login";
     }
 
@@ -89,9 +99,22 @@ public class LoginController extends BaseController {
         writeJSON(response, result);
     }
 
-    @RequestMapping("/goUnauthorized")
-    public String goUnauthorized() {
-        return "redirect:/unauthorized";
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        User user = (User) session.getAttribute(Constants.CURRENT_USER);
+        if (user != null) {
+            mav.setViewName("admin/home");
+        }
+        return mav;
+    }
+
+
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String dashboard(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        return "admin/dashboard";
     }
 
     @RequestMapping("/unauthorized")

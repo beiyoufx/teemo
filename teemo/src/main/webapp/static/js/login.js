@@ -59,7 +59,7 @@ $().ready(function () {
                 complete : function(response) {
                     var result = response.responseJSON;
                     if (result.code == 1) {
-                        document.location.href = getContextPath() + "/sys/user/home";
+                        document.location.href = getContextPath() + "/home";
                     } else if (result.code == -1) {
                         parent.layer.msg(result.message);
                     } else if (result.code == -2) {
