@@ -132,7 +132,7 @@ function buildTable($el, cells, rows) {
   // -------------------------------
   (function() {
     $('#exampleTableColumns').bootstrapTable({
-      url: "js/demo/bootstrap_table_test.json",
+      url: "/teemo/static/js/demo/bootstrap_table_test.json",
       height: "400",
       iconSize: 'outline',
       showColumns: true,
@@ -154,7 +154,7 @@ function buildTable($el, cells, rows) {
   // -------------------------------
   (function() {
     $('#exampleTableToolbar').bootstrapTable({
-      url: "js/demo/bootstrap_table_test2.json",
+      url: "/teemo/static/js/demo/bootstrap_table_test2.json",
       search: true,
       showRefresh: true,
       showToggle: true,
@@ -174,7 +174,7 @@ function buildTable($el, cells, rows) {
   // ------------------------------
   (function() {
     $('#exampleTableEvents').bootstrapTable({
-      url: "js/demo/bootstrap_table_test.json",
+      url: "/teemo/static/js/demo/bootstrap_table_test.json",
       search: true,
       pagination: true,
       showRefresh: true,

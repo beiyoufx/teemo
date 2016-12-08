@@ -18,8 +18,11 @@ import com.teemo.core.util.UserLogUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 
 /**
  * @author yongjie.teng
@@ -101,6 +104,20 @@ public class UserService extends BaseService<User> {
             return null;
         }
         return get("username", username);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public boolean logicDelete(Serializable id) {
+        boolean result = false;
+        if (id != null) {
+            User user = get(id);
+            if (user != null && Boolean.FALSE.equals(user.getDeleted())) {
+                user.setDeleted(Boolean.TRUE);
+                update(user);
+                result = true;
+            }
+        }
+        return result;
     }
 
     private String randomSalt() {

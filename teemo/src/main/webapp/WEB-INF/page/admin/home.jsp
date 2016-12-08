@@ -47,14 +47,14 @@
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
                             </li>
-                            <li><a class="J_menuItem" href="profile.html">个人资料</a>
+                            <li><a class="J_menuItem" href="${ctx}/sys/user/profile">个人资料</a>
                             </li>
                             <li><a class="J_menuItem" href="contacts.html">联系我们</a>
                             </li>
                             <li><a class="J_menuItem" href="mailbox.html">信箱</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="login.html">安全退出</a>
+                            <li><a href="${ctx}/logout">安全退出</a>
                             </li>
                         </ul>
                     </div>
@@ -91,6 +91,18 @@
                         </li>
                         <li>
                             <a class="J_menuItem" href="${ctx}/sys/permission/main">权限管理</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-area-chart"></i>
+                        <span class="nav-label">系统监控</span>
+                        <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a class="J_menuItem" href="${ctx}/druid">Druid</a>
                         </li>
                     </ul>
                 </li>

@@ -66,7 +66,7 @@ function WinMove() {
             connectWith: connect,
             tolerance: 'pointer',
             forcePlaceholderSize: true,
-            opacity: 0.8,
+            opacity: 0.8
         })
         .disableSelection();
 };
