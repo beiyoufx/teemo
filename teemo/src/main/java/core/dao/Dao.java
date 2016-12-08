@@ -160,6 +160,12 @@ public interface Dao<E> {
     public List<E> findAll();
 
     /**
+     * 查询条件获取实体所有数目
+     * @return 实体所有数目
+     */
+    public Long count(Searchable searchable);
+
+    /**
      * 根据查询条件获取实体列表
      * @param searchable 查询条件
      * @return 实体列表

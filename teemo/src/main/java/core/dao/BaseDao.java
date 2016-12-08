@@ -239,6 +239,26 @@ public abstract class BaseDao<E> implements Dao<E> {
     }
 
     @Override
+    public Long count(Searchable searchable) {
+        Assert.notNull(searchable, "Searchable must be not null.");
+
+        // 初始化SQL
+        StringBuilder sb = new StringBuilder("select count(*) from " + this.entityClass.getName() + " e");
+
+        if (searchable.hasSearchFilter()) {
+            sb.append(" where ");
+            prepareHql(sb, searchable);
+        }
+
+        Query query = getSession().createQuery(sb.toString());
+        if (searchable.hasSearchFilter()) {
+            prepareValues(query, searchable);
+        }
+
+        return (Long) query.uniqueResult();
+    }
+
+    @Override
     public List<E> find(Searchable searchable) {
         Assert.notNull(searchable, "Searchable must be not null.");
 
@@ -356,7 +376,7 @@ public abstract class BaseDao<E> implements Dao<E> {
 
         if (filter.hasChildFilter()) {
             for (SearchFilter childFilter : filter.getChildFilters()) {
-                setValue(query, childFilter, pos);
+                pos = setValue(query, childFilter, pos);
             }
         }
         return pos;

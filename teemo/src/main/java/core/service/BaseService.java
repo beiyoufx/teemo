@@ -132,6 +132,12 @@ public abstract class BaseService<E> implements Service<E> {
 
     @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
     @Override
+    public Long count(Searchable searchable) {
+        return this.dao.count(searchable);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
+    @Override
     public List<E> find(Searchable searchable) {
         return this.dao.find(searchable);
     }
