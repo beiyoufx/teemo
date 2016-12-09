@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>Teemo后台 - 用户管理</title>
+    <title>Teemo后台 - 角色管理</title>
 
     <meta name="keywords" content="teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能。">
     <meta name="description" content="teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能。">
@@ -30,7 +30,7 @@
     <!-- Panel Other -->
     <div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5>用户管理</h5>
+            <h5>角色管理</h5>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>
@@ -42,19 +42,16 @@
                 <div class="col-sm-12">
                     <!-- Pagination Table -->
                     <div class="table-wrap">
-                        <h4 class="table-title">用户列表</h4>
+                        <h4 class="table-title">角色列表</h4>
                         <div class="table-container">
                             <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline">
                                 <thead>
                                 <tr>
-                                    <th data-checkbox="true"></th>
                                     <th data-field="id">ID</th>
-                                    <th data-field="nickname">姓名</th>
-                                    <th data-field="username">用户名</th>
-                                    <th data-field="mobilePhone">手机号</th>
-                                    <th data-field="email">邮箱</th>
-                                    <th data-field="createTime">创建时间</th>
-                                    <th data-field="status" data-formatter="stateFormatter">状态</th>
+                                    <th data-field="roleKey">角色关键字</th>
+                                    <th data-field="roleValue">角色名</th>
+                                    <th data-field="description">描述</th>
+                                    <th data-field="available" data-formatter="stateFormatter">状态</th>
                                     <th data-formatter="optionFormatter">选项</th>
                                 </tr>
                                 </thead>
@@ -87,26 +84,35 @@
 <script>
     tableModel = {
         table : $('#paginationTable'),
-        url : "${ctx}/sys/user/find",
-        deleteUrl : "${ctx}/sys/user/delete"
+        url : "${ctx}/sys/role/find",
+        deleteUrl : "${ctx}/sys/role/delete",
+        authUrl: "${ctx}/sys/role/auth"
     };
 
     function stateFormatter(value) {
-        return value == "normal" ? "正常" : "锁定";
+        return value == true ? "可用" : "不可用";
     }
 
     function optionFormatter(value, row, index) {
         var authHtml = "&nbsp;<shiro:hasPermission name="sys:auth:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授权</button></shiro:hasPermission>&nbsp;";
-        var editHtml = "&nbsp;<shiro:hasPermission name="sys:user:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editUser(" + row.id + ")'>编辑</button></shiro:hasPermission>&nbsp;";
-        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:user:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删除</button></shiro:hasPermission>&nbsp;";
+        var editHtml = "&nbsp;<shiro:hasPermission name="sys:role:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editRole(" + row.id + ")'>编辑</button></shiro:hasPermission>&nbsp;";
+        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:role:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删除</button></shiro:hasPermission>&nbsp;";
         return "<div class='text-center'>" + authHtml + editHtml + deleteHtml + "</div>";
     }
 
-    function auth(userId) {
-        parent.layer.msg("授权成功", {icon: 1});
+    function auth(roleId) {
+        //iframe层
+        parent.layer.open({
+            type: 2,
+            title: '角色授权',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['50%', '50%'],
+            content: tableModel.authUrl + "/" + roleId //iframe的url
+        });
     }
 
-    function editUser(userId) {
+    function editRole(roleId) {
         parent.layer.msg("编辑成功", {icon: 1});
     }
 </script>
