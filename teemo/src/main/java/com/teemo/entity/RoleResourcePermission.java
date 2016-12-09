@@ -58,7 +58,7 @@ public class RoleResourcePermission extends BaseEntity {
      */
     @Column(name = "permission_ids")
     @Type(type = "SetToStringUserType")
-    private Set<Long> PermissionIds;
+    private Set<Long> permissionIds;
 
     public Long getId() {
         return id;
@@ -85,10 +85,10 @@ public class RoleResourcePermission extends BaseEntity {
     }
 
     public Set<Long> getPermissionIds() {
-        return PermissionIds;
+        return permissionIds;
     }
 
     public void setPermissionIds(Set<Long> permissionIds) {
-        PermissionIds = permissionIds;
+        this.permissionIds = permissionIds;
     }
 }

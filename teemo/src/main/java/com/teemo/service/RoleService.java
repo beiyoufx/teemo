@@ -7,8 +7,11 @@ package com.teemo.service;
 
 import com.teemo.dao.RoleDao;
 import com.teemo.entity.Role;
+import com.teemo.entity.RoleResourcePermission;
 import core.service.BaseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -20,10 +23,58 @@ import javax.annotation.Resource;
  */
 @Service
 public class RoleService extends BaseService<Role> {
+    @Resource
+    private RoleResourcePermissionService roleResourcePermissionService;
     private RoleDao roleDao;
     @Resource
     public void setRoleDao(RoleDao roleDao) {
         this.roleDao = roleDao;
         this.dao = roleDao;
+    }
+
+    /**
+     * 更新角色信息和权限
+     * @param role 角色
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void updateRole(Role role) {
+        if (role != null) {
+            if (role.getResourcePermissions() != null && !role.getResourcePermissions().isEmpty()) {
+                //  更新该角色所对应的权限信息
+                for (RoleResourcePermission rrp : role.getResourcePermissions()) {
+                    roleResourcePermissionService.merge(rrp);
+                }
+            }
+            merge(role);
+        }
+    }
+
+    /**
+     * 删除角色信息和权限
+     * @param role 角色
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void deleteRole(Role role) {
+        if (role != null) {
+            if (role.getResourcePermissions() != null && !role.getResourcePermissions().isEmpty()) {
+                // 删除该角色所对应的权限信息
+                for (RoleResourcePermission rrp : role.getResourcePermissions()) {
+                    roleResourcePermissionService.delete(rrp);
+                }
+            }
+            deleteUserRole(role);
+            delete(role);
+        }
+    }
+
+    /**
+     * 根据角色删除用户角色关系
+     * @param role 角色
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void deleteUserRole(Role role) {
+        if (role != null) {
+            roleDao.deleteUserRoleById(role.getId());
+        }
     }
 }

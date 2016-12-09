@@ -120,6 +120,17 @@ public class UserService extends BaseService<User> {
         return result;
     }
 
+    /**
+     * 根据角色删除用户角色关系
+     * @param user 角色
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void deleteUserRole(User user) {
+        if (user != null) {
+            userDao.deleteUserRoleById(user.getId());
+        }
+    }
+
     private String randomSalt() {
         return RandomStringUtils.randomAlphanumeric(8);
     }

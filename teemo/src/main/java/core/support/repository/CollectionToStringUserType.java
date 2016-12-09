@@ -156,9 +156,11 @@ public class CollectionToStringUserType implements UserType, ParameterizedType, 
         } else {
             valueStr = StringUtils.join((Collection) value, separator);
         }
+        /*
+        开涛的这段代码会在每条记录的权限id后追加一个逗号，由于我们不需要，这段代码暂时屏蔽掉
         if(StringUtils.isNotEmpty(valueStr)) {
             valueStr = valueStr + ",";
-        }
+        }*/
         st.setString(index, valueStr);
     }
 
