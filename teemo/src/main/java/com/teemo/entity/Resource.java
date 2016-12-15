@@ -66,6 +66,13 @@ public class Resource extends BaseEntity {
     @Column(name = "available")
     private Boolean available = Boolean.FALSE;
 
+    /**
+     * 资源类型
+     */
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private ResourceType type;
+
     public Long getId() {
         return id;
     }
@@ -120,5 +127,13 @@ public class Resource extends BaseEntity {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public ResourceType getType() {
+        return type;
+    }
+
+    public void setType(ResourceType type) {
+        this.type = type;
     }
 }
