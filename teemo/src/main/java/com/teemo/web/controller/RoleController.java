@@ -143,7 +143,7 @@ public class RoleController extends BaseController{
         Role role = roleService.get(id);
         roleService.deleteRole(role);
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
-        UserLogUtil.log(user.getUsername(), "删除角色成功", "被操作ID:{}", id);
+        UserLogUtil.log(user.getUsername(), "删除角色成功", "被操作角色Key:{}", role.getRoleKey());
         Result result = new Result(1, "删除角色成功");
         writeJSON(response, result);
     }

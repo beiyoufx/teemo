@@ -88,7 +88,9 @@
     tableModel = {
         table : $('#paginationTable'),
         url : "${ctx}/sys/user/find",
-        deleteUrl : "${ctx}/sys/user/delete"
+        deleteUrl : "${ctx}/sys/user/delete",
+        editUrl: "${ctx}/sys/user/edit",
+        authUrl: "${ctx}/sys/user/auth"
     };
 
     function stateFormatter(value) {
@@ -109,7 +111,15 @@
     }
 
     function editUser(userId) {
-        parent.layer.msg("编辑成功", {icon: 1});
+        //iframe层
+        parent.layer.open({
+            type: 2,
+            title: ['编辑用户', 'font-weight:bold;'],
+            shadeClose: true,
+            shade: 0.8,
+            area: ['50%', '50%'],
+            content: tableModel.editUrl + "/" + userId //iframe的url
+        });
     }
 </script>
 

@@ -48,7 +48,7 @@
                                 <div class="col-sm-8">
                                 <c:forEach var="permissionState" items="${resourceTailNode.permissionStates}">
                                     <label class="checkbox-inline i-checks">
-                                        <input type="checkbox" data-resource-id="${resourceTailNode.id}" value="${permissionState.id}" ${permissionState.authorized ? "checked" : ""} ${permissionState.available ? "disable" : ""}> <i></i> ${permissionState.permissionValue} </label>
+                                        <input type="checkbox" data-resource-id="${resourceTailNode.id}" value="${permissionState.id}" ${permissionState.authorized == true ? "checked" : ""} > <i></i> ${permissionState.permissionValue} </label>
                                 </c:forEach>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             <div class="col-sm-8">
                                 <c:forEach var="permissionState" items="${childResourceNode.permissionStates}">
                                     <label class="checkbox-inline i-checks">
-                                        <input type="checkbox" data-resource-id="${childResourceNode.id}" value="${permissionState.id}" ${permissionState.authorized ? "checked" : ""} ${permissionState.available ? "disable" : ""}> <i></i> ${permissionState.permissionValue} </label>
+                                        <input type="checkbox" data-resource-id="${childResourceNode.id}" value="${permissionState.id}" ${permissionState.authorized == true ? "checked" : ""} > <i></i> ${permissionState.permissionValue} </label>
                                 </c:forEach>
                             </div>
                         </div>

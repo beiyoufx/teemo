@@ -25,7 +25,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">角色关键字：</label>
             <div class="col-sm-10">
-                <input id="roleKey" name="roleKey" type="text" class="form-control" maxlength="32" placeholder="请输入4-32位字母" value="${role.roleKey}"/>
+                <input id="roleKey" name="roleKey" type="text" class="form-control" maxlength="32" placeholder="请输入4-32位字母" value="${role.roleKey}" ${role.roleKey != null ? "readonly" : ""}/>
             </div>
         </div>
         <div class="form-group">
