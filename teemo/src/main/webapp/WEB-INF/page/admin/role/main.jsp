@@ -44,7 +44,12 @@
                     <div class="table-wrap">
                         <h4 class="table-title">角色列表</h4>
                         <div class="table-container">
-                            <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline">
+                            <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                <button type="button" class="btn btn-outline btn-primary" onclick="addRole()">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><span> 新增角色</span>
+                                </button>
+                            </div>
+                            <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline" data-toolbar="#toolbar">
                                 <thead>
                                 <tr>
                                     <th data-field="id">ID</th>
@@ -85,18 +90,22 @@
     tableModel = {
         table : $('#paginationTable'),
         url : "${ctx}/sys/role/find",
+        addUrl: "${ctx}/sys/role/add",
         deleteUrl : "${ctx}/sys/role/delete",
+        editUrl: "${ctx}/sys/role/edit",
         authUrl: "${ctx}/sys/role/auth"
     };
 
     function stateFormatter(value) {
-        return value == true ? "可用" : "不可用";
+        var availableHtml = "<span class='badge badge-primary'>&nbsp;可 用&nbsp;</span>";
+        var unavailableHtml = "<span class='badge badge-warning'>&nbsp;不 可 用&nbsp;</span>";
+        return value == true ? availableHtml : unavailableHtml;
     }
 
     function optionFormatter(value, row, index) {
-        var authHtml = "&nbsp;<shiro:hasPermission name="sys:auth:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授权</button></shiro:hasPermission>&nbsp;";
-        var editHtml = "&nbsp;<shiro:hasPermission name="sys:role:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editRole(" + row.id + ")'>编辑</button></shiro:hasPermission>&nbsp;";
-        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:role:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删除</button></shiro:hasPermission>&nbsp;";
+        var authHtml = "&nbsp;<shiro:hasPermission name="sys:role:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授 权</button></shiro:hasPermission>&nbsp;";
+        var editHtml = "&nbsp;<shiro:hasPermission name="sys:role:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editRole(" + row.id + ")'>编 辑</button></shiro:hasPermission>&nbsp;";
+        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:role:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删 除</button></shiro:hasPermission>&nbsp;";
         return "<div class='text-center'>" + authHtml + editHtml + deleteHtml + "</div>";
     }
 
@@ -104,16 +113,36 @@
         //iframe层
         parent.layer.open({
             type: 2,
-            title: '角色授权',
+            title: ['角色授权', 'font-weight:bold;'],
             shadeClose: true,
             shade: 0.8,
-            area: ['50%', '50%'],
+            area: ['50%', '80%'],
             content: tableModel.authUrl + "/" + roleId //iframe的url
         });
     }
 
+    function addRole() {
+        //iframe层
+        parent.layer.open({
+            type: 2,
+            title: ['新增角色', 'font-weight:bold;'],
+            shadeClose: true,
+            shade: 0.8,
+            area: ['50%', '50%'],
+            content: tableModel.addUrl
+        });
+    }
+
     function editRole(roleId) {
-        parent.layer.msg("编辑成功", {icon: 1});
+        //iframe层
+        parent.layer.open({
+            type: 2,
+            title: ['编辑角色', 'font-weight:bold;'],
+            shadeClose: true,
+            shade: 0.8,
+            area: ['50%', '50%'],
+            content: tableModel.editUrl + "/" + roleId //iframe的url
+        });
     }
 </script>
 

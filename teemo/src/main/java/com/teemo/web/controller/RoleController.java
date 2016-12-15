@@ -6,13 +6,17 @@
 package com.teemo.web.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.teemo.core.Constants;
 import com.teemo.core.util.UserLogUtil;
 import com.teemo.dto.BTQueryParameter;
 import com.teemo.dto.Page;
 import com.teemo.dto.Result;
+import com.teemo.entity.ResourceNode;
 import com.teemo.entity.Role;
+import com.teemo.entity.RoleResourcePermission;
 import com.teemo.entity.User;
+import com.teemo.service.ResourceService;
 import com.teemo.service.RoleService;
 import core.support.Condition;
 import core.support.PageRequest;
@@ -35,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -48,6 +53,8 @@ import java.util.List;
 public class RoleController extends BaseController{
     @Resource
     private RoleService roleService;
+    @Resource
+    private ResourceService resourceService;
 
     @RequiresPermissions(value = "sys:role:view")
     @RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -100,14 +107,33 @@ public class RoleController extends BaseController{
         writeJSON(response, page);
     }
 
+    @RequiresPermissions(value = "sys:role:create")
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String add() throws IOException {
+        return "admin/role/edit";
+    }
+
     @RequiresPermissions(value = "sys:role:update")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update(HttpServletResponse response, @RequestBody String body) throws IOException {
-        Role role = JSON.parseObject(body, Role.class);
-        roleService.updateRole(role);
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView edit(HttpServletResponse response, @PathVariable Long id) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        Role role = roleService.get(id);
+        mav.addObject("role", role);
+        mav.setViewName("admin/role/edit");
+        return mav;
+    }
+
+    @RequiresPermissions(value = "sys:role:update")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public void save(HttpServletResponse response, Role role) throws IOException {
+        if (role.getId() == null) {
+            roleService.persist(role);
+        } else {
+            roleService.merge(role);
+        }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
-        UserLogUtil.log(user.getUsername(), "更新角色信息成功", "被操作ID:{}", role.getId());
-        Result result = new Result(1, "更新角色信息成功.");
+        UserLogUtil.log(user.getUsername(), "保存角色信息成功", "被操作ID:{}", role.getId());
+        Result result = new Result(1, "保存角色信息成功.");
         writeJSON(response, result);
     }
 
@@ -124,14 +150,27 @@ public class RoleController extends BaseController{
 
     @RequiresPermissions(value = "sys:role:view")
     @RequestMapping(value = "/auth/{id}", method = RequestMethod.GET)
-    public ModelAndView auth(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public ModelAndView auth(HttpServletResponse response, @PathVariable Long id) throws IOException {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("admin/role/auth");
         if (id != null) {
             Role role = roleService.get(id);
+            List<ResourceNode> resourceNodes = resourceService.findResourceNode(role);
+            mav.addObject("resourceNodes", resourceNodes);
             mav.addObject("role", role);
         }
         return mav;
+    }
+
+    @RequiresPermissions(value = "sys:role:update")
+    @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    public void authRole(HttpServletResponse response, @RequestBody String body) throws IOException {
+        HashSet<RoleResourcePermission> rrps = JSON.parseObject(body, new TypeReference<HashSet<RoleResourcePermission>>() {});
+        roleService.authRole(rrps);
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
+        UserLogUtil.log(user.getUsername(), "角色授权成功", "被操作数据:{}", JSON.toJSONString(rrps));
+        Result result = new Result(1, "角色授权成功");
+        writeJSON(response, result);
     }
 
 }

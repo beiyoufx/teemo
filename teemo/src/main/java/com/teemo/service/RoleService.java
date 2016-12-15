@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * @author yongjie.teng
@@ -34,18 +35,18 @@ public class RoleService extends BaseService<Role> {
 
     /**
      * 更新角色信息和权限
-     * @param role 角色
+     * @param rrps 角色权限信息
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
-    public void updateRole(Role role) {
-        if (role != null) {
-            if (role.getResourcePermissions() != null && !role.getResourcePermissions().isEmpty()) {
-                //  更新该角色所对应的权限信息
-                for (RoleResourcePermission rrp : role.getResourcePermissions()) {
-                    roleResourcePermissionService.merge(rrp);
-                }
+    public void authRole(Set<RoleResourcePermission> rrps) {
+        if (rrps != null && !rrps.isEmpty()) {
+            // 删除角色原有权限信息
+            Long roleId = ((RoleResourcePermission)rrps.toArray()[0]).getRole().getId();
+            roleResourcePermissionService.deleteByRoleId(roleId);
+            // 更新该角色所对应的权限信息
+            for (RoleResourcePermission rrp : rrps) {
+                roleResourcePermissionService.persist(rrp);
             }
-            merge(role);
         }
     }
 

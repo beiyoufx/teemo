@@ -36,7 +36,7 @@
         </div>
         <h3>欢迎注册 Teemo</h3>
         <p>创建一个Teemo新账户</p>
-        <form class="m-t" id="validationRegisterFrom" action="${ctx}/login" method="post">
+        <form class="m-t" id="validationRegisterFrom" action="#" method="post">
             <div class="form-group">
                 <input id="username" name="username" type="text" class="form-control" placeholder="请输入用户名" maxlength="32">
             </div>

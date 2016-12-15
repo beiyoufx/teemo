@@ -26,4 +26,14 @@ public class RoleResourcePermissionService extends BaseService<RoleResourcePermi
         this.roleResourcePermissionDao = roleResourcePermissionDao;
         this.dao = roleResourcePermissionDao;
     }
+
+    /**
+     * 根据角色主键删除角色权限信息
+     * @param roleId 角色ID
+     */
+    public void deleteByRoleId(Long roleId) {
+        if (roleId != null) {
+            roleResourcePermissionDao.deleteByRoleId(roleId);
+        }
+    }
 }

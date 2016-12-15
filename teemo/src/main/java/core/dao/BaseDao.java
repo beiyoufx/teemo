@@ -295,6 +295,7 @@ public abstract class BaseDao<E> implements Dao<E> {
         return find(searchable);
     }
 
+    @Override
     public List<E> find(String propName, Object propValue) {
         Searchable searchable = SearchRequest.newSearchRequest();
         searchable.addSearchParam(propName, propValue);

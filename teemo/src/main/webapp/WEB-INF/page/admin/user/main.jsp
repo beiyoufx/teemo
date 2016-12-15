@@ -92,13 +92,15 @@
     };
 
     function stateFormatter(value) {
-        return value == "normal" ? "正常" : "锁定";
+        var availableHtml = "<span class='badge badge-primary'>&nbsp;正 常&nbsp;</span>";
+        var unavailableHtml = "<span class='badge badge-warning'>&nbsp;锁 定&nbsp;</span>";
+        return value == "normal" ? availableHtml : unavailableHtml;
     }
 
     function optionFormatter(value, row, index) {
-        var authHtml = "&nbsp;<shiro:hasPermission name="sys:auth:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授权</button></shiro:hasPermission>&nbsp;";
-        var editHtml = "&nbsp;<shiro:hasPermission name="sys:user:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editUser(" + row.id + ")'>编辑</button></shiro:hasPermission>&nbsp;";
-        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:user:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删除</button></shiro:hasPermission>&nbsp;";
+        var authHtml = "&nbsp;<shiro:hasPermission name="sys:user:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授 权</button></shiro:hasPermission>&nbsp;";
+        var editHtml = "&nbsp;<shiro:hasPermission name="sys:user:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editUser(" + row.id + ")'>编 辑</button></shiro:hasPermission>&nbsp;";
+        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:user:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删 除</button></shiro:hasPermission>&nbsp;";
         return "<div class='text-center'>" + authHtml + editHtml + deleteHtml + "</div>";
     }
 

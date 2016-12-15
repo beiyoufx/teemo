@@ -60,7 +60,7 @@ public class Role extends BaseEntity {
     /**
      * 角色与资源关系
      */
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "role")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
     private Set<RoleResourcePermission> resourcePermissions = new HashSet<RoleResourcePermission>();
 
     public Long getId() {
