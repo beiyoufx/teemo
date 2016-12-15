@@ -45,26 +45,37 @@ public class AuthorizationService {
      */
     public Set<String> findPermissionsStr(User user) {
         Set<String> permissions = new HashSet<String>();
-        Resource resource = null;
         for (Role role : user.getRoles()) {
-            for (RoleResourcePermission rrp : role.getResourcePermissions()) {
-                resource = resourceService.get(rrp.getResourceId());
+            permissions.addAll(findPermissionsStr(role));
+        }
+        return permissions;
+    }
 
-                // 只有在资源可用的情况下才进行资源字符串查询
-                if (resource != null && Boolean.TRUE.equals(resource.getAvailable())) {
-                    String actualResourceKey = resourceService.findActualResourceKey(resource);
+    /**
+     * 获取目标角色的权限字符串集合
+     * @param role 目标角色
+     * @return Set<String>
+     */
+    public Set<String> findPermissionsStr(Role role) {
+        Set<String> permissions = new HashSet<String>();
+        Resource resource = null;
+        for (RoleResourcePermission rrp : role.getResourcePermissions()) {
+            resource = resourceService.get(rrp.getResourceId());
 
-                    // 只有在资源字符串存在的情况下才进行权限字符串查询
-                    if (StringUtil.isNotEmpty(actualResourceKey)) {
-                        for (Long permissionId : rrp.getPermissionIds()) {
-                            Permission permission = permissionService.get(permissionId);
+            // 只有在资源可用的情况下才进行资源字符串查询
+            if (resource != null && Boolean.TRUE.equals(resource.getAvailable())) {
+                String actualResourceKey = resourceService.findActualResourceKey(resource);
 
-                            // 只有在权限可用的情况下才进行权限字符串拼接
-                            if (permission != null && Boolean.TRUE.equals(permission.getAvailable())) {
+                // 只有在资源字符串存在的情况下才进行权限字符串查询
+                if (StringUtil.isNotEmpty(actualResourceKey)) {
+                    for (Long permissionId : rrp.getPermissionIds()) {
+                        Permission permission = permissionService.get(permissionId);
 
-                                // 权限使用逐条声明的方式，如[user:view][user:delete]而不是[user:view,delete]
-                                permissions.add(actualResourceKey + ":" + permission.getPermissionKey());
-                            }
+                        // 只有在权限可用的情况下才进行权限字符串拼接
+                        if (permission != null && Boolean.TRUE.equals(permission.getAvailable())) {
+
+                            // 权限使用逐条声明的方式，如[user:view][user:delete]而不是[user:view,delete]
+                            permissions.add(actualResourceKey + ":" + permission.getPermissionKey());
                         }
                     }
                 }
