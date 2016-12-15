@@ -38,15 +38,15 @@
         </layout>
     </appender>
 
+    <logger name="USER_LOG" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_USER_LOG" />
+    </logger>
     <!-- 基本日志级别为INFO -->
     <root>
         <level value="INFO" />
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="ASYNC_BASE" />
     </root>
-    <logger name="USER_LOG" additivity="false">
-        <level value="INFO" />
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="ASYNC_USER_LOG" />
-    </logger>
 </log4j:configuration>
