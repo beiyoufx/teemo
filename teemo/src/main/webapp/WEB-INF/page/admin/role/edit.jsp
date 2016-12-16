@@ -97,9 +97,9 @@
                     maxlength : "角色关键字长度至多为{0}个字符"
                 },
                 roleValue : {
-                    required : "请输入角色名",
-                    minlength : "角色名长度至少为{0}个字符",
-                    maxlength : "角色名长度至多为{0}个字符"
+                    required : "请输入角色名称",
+                    minlength : "角色名称长度至少为{0}个字符",
+                    maxlength : "角色名称长度至多为{0}个字符"
                 },
                 description : {
                     maxlength : "描述长度至多为{0}个字符"
@@ -121,8 +121,7 @@
                         var result = response.responseJSON;
                         if (result.code == 1) {
                             parent.layer.msg("保存角色信息成功，请刷新后查看", {icon : 1});
-                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                            parent.layer.close(index); //再执行关闭
+                            closeCurrentFrame();
                         } else  {
                             parent.layer.msg(result.message, {icon: 2});
                         }

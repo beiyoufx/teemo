@@ -81,7 +81,7 @@ public class UserDao extends BaseDao<User> {
 
         Query query = getSession().createQuery(sb.toString());
         // 拼接需要更新的字段属性值
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i <= pos; i++) {
             query.setParameter("v_" + props[i], values[i]);
         }
         query.executeUpdate();
