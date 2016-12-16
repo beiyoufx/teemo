@@ -19,7 +19,7 @@ public class ResourceDao extends BaseDao<Resource> {
      * id最小的就是根资源
      */
     public Long getRootResourceId() {
-        Query query = this.getSession().createQuery("select MIN(id) as id from " + Resource.class.getName());
+        Query query = getSession().createQuery("select MIN(id) as id from " + Resource.class.getName());
         return (Long) query.uniqueResult();
     }
 }

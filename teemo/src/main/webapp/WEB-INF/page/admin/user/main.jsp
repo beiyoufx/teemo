@@ -53,7 +53,9 @@
                                     <th data-field="username">用户名</th>
                                     <th data-field="mobilePhone">手机号</th>
                                     <th data-field="email">邮箱</th>
-                                    <th data-field="createTime">创建时间</th>
+                                    <th data-field="departmentKey">部门关键字</th>
+                                    <th data-field="createTime">注册时间</th>
+                                    <th data-field="modifyTime">修改时间</th>
                                     <th data-field="status" data-formatter="stateFormatter">状态</th>
                                     <th data-formatter="optionFormatter">选项</th>
                                 </tr>

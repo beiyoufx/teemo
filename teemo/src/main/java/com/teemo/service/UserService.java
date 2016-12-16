@@ -131,6 +131,17 @@ public class UserService extends BaseService<User> {
         }
     }
 
+    /**
+     * 部分更新用户表字段
+     * 只更新以下字段：nickname/email/mobilePhone/departmentKey/status
+     * @param user 待更新实体
+     */
+    public void mergeUser(User user) {
+        if (user.getId() != null) {
+            userDao.mergeUser(user);
+        }
+    }
+
     private String randomSalt() {
         return RandomStringUtils.randomAlphanumeric(8);
     }

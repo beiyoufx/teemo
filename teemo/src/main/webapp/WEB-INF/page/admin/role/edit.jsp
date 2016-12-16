@@ -69,7 +69,7 @@
 <script>
 
     $().ready(function () {
-        // 验证注册表单
+        // 验证表单-保存角色
         $("#saveButton").bind("click", function() {
             $('#validationSaveRoleFrom').submit();
         });

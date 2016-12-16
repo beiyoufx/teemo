@@ -9,7 +9,10 @@ import com.teemo.core.Constants;
 import com.teemo.dto.BTQueryParameter;
 import com.teemo.dto.Page;
 import com.teemo.dto.Result;
+import com.teemo.entity.Department;
+import com.teemo.entity.Role;
 import com.teemo.entity.User;
+import com.teemo.service.DepartmentService;
 import com.teemo.service.UserService;
 import core.support.Condition;
 import core.support.PageRequest;
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +52,8 @@ public class UserController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Resource
     private UserService userService;
+    @Resource
+    private DepartmentService departmentService;
 
     @RequiresPermissions(value = "sys:user:view")
     @RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -111,13 +117,29 @@ public class UserController extends BaseController {
     }
 
     @RequiresPermissions(value = "sys:user:update")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void update(HttpServletResponse response) throws IOException {
-        Searchable searchable = SearchRequest.newSearchRequest();
-        searchable.addSearchParam("username", "马化腾");
-        searchable.addSearchParam("password", "123");
-        userService.update(searchable, "email", "tencent@qq.com");
-        writeJSON(response, "更新成功");
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView edit(HttpServletResponse response, @PathVariable Long id) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        User user = userService.get(id);
+        List<Department> departments = departmentService.findAll();
+        mav.addObject("user", user);
+        mav.addObject("departments", departments);
+        mav.setViewName("admin/user/edit");
+        return mav;
+    }
+
+    @RequiresPermissions(value = "sys:user:update")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public void save(HttpServletResponse response, User user) throws IOException {
+        if (user.getId() == null) {
+            userService.persist(user);
+        } else {
+            userService.mergeUser(user);
+        }
+        User currentUser = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
+        UserLogUtil.log(currentUser.getUsername(), "保存用户信息成功", "被操作用户名:{}", user.getUsername());
+        Result result = new Result(1, "保存用户信息成功.");
+        writeJSON(response, result);
     }
 
     @RequiresPermissions(value = "sys:user:delete")

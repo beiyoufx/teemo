@@ -24,7 +24,7 @@ public class RoleDao extends BaseDao<Role> {
      * @param id 角色ID
      */
     public void deleteUserRoleById(Long id) {
-        Query query = this.getSession().createSQLQuery("delete from user_role where role_id = :roleId");
+        Query query = getSession().createSQLQuery("delete from user_role where role_id = :roleId");
         query.setParameter("roleId", id);
         query.executeUpdate();
     }
