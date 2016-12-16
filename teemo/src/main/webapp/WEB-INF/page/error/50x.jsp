@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Teemo后台 - 401</title>
+    <title>Teemo后台 - 500</title>
 
     <link rel="shortcut icon" href="${staticPath}/static/favicon.ico">
     <link rel="bookmark" href="${staticPath}/static/favicon.ico"/>
@@ -17,13 +17,11 @@
 </head>
 <body class="gray-bg">
 <div class="middle-box text-center animated fadeInDown">
-    <h1>401</h1>
-    <h3 class="font-bold">未授权</h3>
+    <h1>500</h1>
+    <h3 class="font-bold">服务器繁忙</h3>
 
     <div class="error-desc">
-        您还没有权限访问该页面，请联系管理员...
-        <br/>您可以返回主页看看
-        <br/><a href="${ctx}/home" class="btn btn-primary m-t">主页</a>
+        服务器暂时不可用，请稍后重试...
     </div>
 </div>
 

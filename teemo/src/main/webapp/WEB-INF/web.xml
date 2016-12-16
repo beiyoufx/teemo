@@ -102,4 +102,13 @@
         <servlet-name>DruidStatView</servlet-name>
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/page/error/50x.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/page/error/notfound.jsp</location>
+    </error-page>
 </web-app>
