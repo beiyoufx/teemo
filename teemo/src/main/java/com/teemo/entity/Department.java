@@ -54,7 +54,7 @@ public class Department extends BaseEntity implements LogicDeletable {
      * 上级部门ID
      */
     @Column(name = "parent_id")
-    private String parentId;
+    private Long parentId;
 
     public Long getId() {
         return id;
@@ -88,11 +88,11 @@ public class Department extends BaseEntity implements LogicDeletable {
         this.description = description;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

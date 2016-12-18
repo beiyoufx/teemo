@@ -9,6 +9,8 @@ import com.teemo.dao.DepartmentDao;
 import com.teemo.entity.Department;
 import core.service.BaseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -25,5 +27,19 @@ public class DepartmentService extends BaseService<Department> {
     public void setDepartmentDao(DepartmentDao departmentDao) {
         this.departmentDao = departmentDao;
         this.dao = departmentDao;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public boolean logicDelete(Long id) {
+        boolean result = false;
+        if (id != null) {
+            Department department = get(id);
+            if (department != null && Boolean.FALSE.equals(department.getDeleted())) {
+                department.setDeleted(Boolean.TRUE);
+                update(department);
+                result = true;
+            }
+        }
+        return result;
     }
 }

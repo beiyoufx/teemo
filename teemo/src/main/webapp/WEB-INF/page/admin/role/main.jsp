@@ -54,7 +54,7 @@
                                 <tr>
                                     <th data-field="id">ID</th>
                                     <th data-field="roleKey">角色关键字</th>
-                                    <th data-field="roleValue">角色名</th>
+                                    <th data-field="roleValue">角色名称</th>
                                     <th data-field="description">描述</th>
                                     <th data-field="available" data-formatter="stateFormatter">状态</th>
                                     <th data-formatter="optionFormatter">选项</th>

@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title>Teemo后台 - 权限管理</title>
+    <title>Teemo后台 - 部门管理</title>
 
     <meta name="keywords" content="teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能。">
     <meta name="description" content="teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能。">
@@ -30,7 +30,7 @@
     <!-- Panel Other -->
     <div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5>权限管理</h5>
+            <h5>部门管理</h5>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>
@@ -42,21 +42,21 @@
                 <div class="col-sm-12">
                     <!-- Pagination Table -->
                     <div class="table-wrap">
-                        <h4 class="table-title">权限列表</h4>
+                        <h4 class="table-title">部门列表</h4>
                         <div class="table-container">
                             <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                <button type="button" class="btn btn-outline btn-primary" onclick="addPermission()">
-                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><span> 新增权限</span>
+                                <button type="button" class="btn btn-outline btn-primary" onclick="adddepartment()">
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><span> 新增部门</span>
                                 </button>
                             </div>
                             <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline" data-toolbar="#toolbar">
                                 <thead>
                                 <tr>
                                     <th data-field="id">ID</th>
-                                    <th data-field="permissionKey">权限关键字</th>
-                                    <th data-field="permissionValue">权限名称</th>
+                                    <th data-field="departmentKey">部门关键字</th>
+                                    <th data-field="departmentValue">部门名</th>
                                     <th data-field="description">描述</th>
-                                    <th data-field="available" data-formatter="stateFormatter">状态</th>
+                                    <th data-field="parentId" data-formatter="parentDepFormatter">上级部门</th>
                                     <th data-formatter="optionFormatter">选项</th>
                                 </tr>
                                 </thead>
@@ -89,29 +89,42 @@
 <script>
     tableModel = {
         table : $('#paginationTable'),
-        url : "${ctx}/sys/permission/find",
-        addUrl: "${ctx}/sys/permission/add",
-        deleteUrl : "${ctx}/sys/permission/delete",
-        editUrl: "${ctx}/sys/permission/edit"
+        url : "${ctx}/sys/department/find",
+        addUrl: "${ctx}/sys/department/add",
+        deleteUrl : "${ctx}/sys/department/delete",
+        editUrl: "${ctx}/sys/department/edit"
     };
 
-    function stateFormatter(value) {
-        var availableHtml = "<span class='badge badge-primary'>&nbsp;可 用&nbsp;</span>";
-        var unavailableHtml = "<span class='badge badge-warning'>&nbsp;不 可 用&nbsp;</span>";
-        return value == true ? availableHtml : unavailableHtml;
+    function parentDepFormatter(value) {
+        var text = "";
+        if (value) {
+            $.ajax({
+                url : "${ctx}/sys/department/" + value,
+                type : "get",
+                async : false,
+                success : function(response) {
+                    if (response) {
+                        text = response.departmentValue;
+                    }
+                },
+                error : function() {
+                }
+            });
+        }
+        return text;
     }
 
     function optionFormatter(value, row, index) {
-        var editHtml = "&nbsp;<shiro:hasPermission name="sys:permission:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editPermission(" + row.id + ")'>编 辑</button></shiro:hasPermission>&nbsp;";
-        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:permission:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删 除</button></shiro:hasPermission>&nbsp;";
+        var editHtml = "&nbsp;<shiro:hasPermission name="sys:department:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editDepartment(" + row.id + ")'>编 辑</button></shiro:hasPermission>&nbsp;";
+        var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:department:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删 除</button></shiro:hasPermission>&nbsp;";
         return "<div class='text-center'>" + editHtml + deleteHtml + "</div>";
     }
 
-    function addPermission() {
+    function adddepartment() {
         //iframe层
         parent.layer.open({
             type: 2,
-            title: ['新增权限', 'font-weight:bold;'],
+            title: ['新增部门', 'font-weight:bold;'],
             shadeClose: true,
             shade: 0.8,
             area: ['50%', '50%'],
@@ -119,15 +132,15 @@
         });
     }
 
-    function editPermission(permissionId) {
+    function editDepartment(departmentId) {
         //iframe层
         parent.layer.open({
             type: 2,
-            title: ['编辑权限', 'font-weight:bold;'],
+            title: ['编辑部门', 'font-weight:bold;'],
             shadeClose: true,
             shade: 0.8,
             area: ['50%', '50%'],
-            content: tableModel.editUrl + "/" + permissionId //iframe的url
+            content: tableModel.editUrl + "/" + departmentId //iframe的url
         });
     }
 </script>
