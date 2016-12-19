@@ -211,6 +211,15 @@ public abstract class BaseDao<E> implements Dao<E> {
     @Override
     public List<E> findAll(Sort sort, Integer maxResults) {
         Criteria criteria = getSession().createCriteria(this.entityClass);
+        /*
+         在被查询实体有left join操作时，该设置被用来进行重复数据的合并
+         但是由此会引发另外一个问题，即：hibernate的元查询maxResults在查询时就已确定，而distinct entity是对实体的操作
+         所以会导致返回的结果与maxResults预期不符，引发分页问题
+         这里给出两种解决方法：
+         1. （推荐）取消实体之间的非必要join，只在用到的时候才去查询子实体，这样做的好处是既不影响分页，又提升了查询性能，不好的地方是可能需要多次查询
+         2.  仍然使用该方法，但是在有实体间left join时不进行分页
+         */
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         if (sort != null && sort.isNotEmpty()) {
             for (Sort.Order order : sort) {
