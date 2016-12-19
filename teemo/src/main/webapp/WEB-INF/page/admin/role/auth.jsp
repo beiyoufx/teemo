@@ -24,7 +24,7 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="alert alert-info alert-dismissable">
         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-        将操作资源的权限授予角色 .【当前授权的角色是：${role.roleValue}】
+        将操作资源的权限授予角色 .【当前被授权的角色是：${role.roleValue}】
     </div>
     <c:forEach var="resourceNode" items="${resourceNodes}">
         <div class="panel panel-default">

@@ -109,7 +109,15 @@
     }
 
     function auth(userId) {
-        parent.layer.msg("授权成功", {icon: 1});
+        //iframe层
+        parent.layer.open({
+            type: 2,
+            title: ['用户授权', 'font-weight:bold;'],
+            shadeClose: true,
+            shade: 0.8,
+            area: ['50%', '50%'],
+            content: tableModel.authUrl + "/" + userId //iframe的url
+        });
     }
 
     function editUser(userId) {

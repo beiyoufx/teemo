@@ -34,10 +34,14 @@ public class UserLastOnline extends BaseEntity {
     private Long id;
 
     /**
-     * 在线的用户
+     * 在线的用户ID
      */
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    /**
+     * 在线的用户的用户名
+     */
     @Column(name = "username", length = 32)
     private String username;
 

@@ -13,6 +13,7 @@ import com.teemo.entity.Department;
 import com.teemo.entity.Role;
 import com.teemo.entity.User;
 import com.teemo.service.DepartmentService;
+import com.teemo.service.RoleService;
 import com.teemo.service.UserService;
 import core.support.Condition;
 import core.support.PageRequest;
@@ -54,6 +55,8 @@ public class UserController extends BaseController {
     private UserService userService;
     @Resource
     private DepartmentService departmentService;
+    @Resource
+    private RoleService roleService;
 
     @RequiresPermissions(value = "sys:user:view")
     @RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -155,5 +158,19 @@ public class UserController extends BaseController {
             result = new Result(-1, "删除用户失败");
         }
         writeJSON(response, result);
+    }
+
+    @RequiresPermissions(value = "sys:user:view")
+    @RequestMapping(value = "/auth/{id}", method = RequestMethod.GET)
+    public ModelAndView auth(HttpServletResponse response, @PathVariable Long id) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("admin/user/auth");
+        if (id != null) {
+            User user = userService.get(id);
+            List<Role> roles = roleService.findAll();
+            mav.addObject("roles", roles);
+            mav.addObject("user", user);
+        }
+        return mav;
     }
 }

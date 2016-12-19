@@ -10,6 +10,7 @@ import com.teemo.core.exception.UserBlockedException;
 import com.teemo.core.exception.UserNotExistsException;
 import com.teemo.core.exception.UserPasswordIncorrectnessException;
 import com.teemo.dao.UserDao;
+import com.teemo.entity.Role;
 import com.teemo.entity.User;
 import com.teemo.entity.UserStatus;
 import core.service.BaseService;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author yongjie.teng
@@ -121,13 +123,28 @@ public class UserService extends BaseService<User> {
     }
 
     /**
-     * 根据角色删除用户角色关系
-     * @param user 角色
+     * 根据用户删除用户角色关系
+     * @param user 用户
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
     public void deleteUserRole(User user) {
         if (user != null) {
             userDao.deleteUserRoleById(user.getId());
+        }
+    }
+
+    /**
+     * 根据用户和角色信息进行授权
+     * @param user 用户
+     * @param roles 角色集合
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void auth(User user, Set<Role> roles) {
+        if (user != null && !roles.isEmpty()) {
+            Long userId = user.getId();
+            for (Role role : roles) {
+                userDao.addUserRole(userId, role.getId());
+            }
         }
     }
 
