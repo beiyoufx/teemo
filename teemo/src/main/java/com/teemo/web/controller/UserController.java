@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -83,7 +82,7 @@ public class UserController extends BaseController {
         Page<User> page = new Page<User>();
         if (queryParameter != null) {
             // 设置排序
-            Sort sort = new Sort(Sort.Direction.desc, "id");
+            Sort sort = new Sort(Sort.Direction.desc, "modifyTime");
             if (StringUtil.isNotEmpty(queryParameter.getSortName())) {
                 if (Sort.Direction.asc.name().equalsIgnoreCase(queryParameter.getSortOrder())) {
                     sort = new Sort(Sort.Direction.asc, queryParameter.getSortName());
@@ -160,17 +159,4 @@ public class UserController extends BaseController {
         writeJSON(response, result);
     }
 
-    @RequiresPermissions(value = "sys:user:view")
-    @RequestMapping(value = "/auth/{id}", method = RequestMethod.GET)
-    public ModelAndView auth(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("admin/user/auth");
-        if (id != null) {
-            User user = userService.get(id);
-            List<Role> roles = roleService.findAll();
-            mav.addObject("roles", roles);
-            mav.addObject("user", user);
-        }
-        return mav;
-    }
 }

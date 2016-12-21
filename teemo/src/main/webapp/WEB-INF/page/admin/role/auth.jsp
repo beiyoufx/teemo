@@ -93,20 +93,13 @@
 <script src="${staticPath}/static/js/admin/common.js"></script>
 <script>
     $().ready(function () {
-        var role = {
-            id : ${role.id},
-            key : "${role.roleKey}",
-            value : "${role.roleValue}",
-            available : ${role.available}
-        };
-
         var preparePermissions = function () {
             var resources = new Array();
             var $permissionsBox = $("input:checkbox:checked");
             $permissionsBox.each(function () {
                 var resource = {
                     role : {
-                        id : role.id
+                        id : ${role.id}
                     },
                     resourceId : "",
                     permissionIds : new Array()
@@ -139,7 +132,7 @@
             $.ajax({
                 dataType : "json",
                 contentType : "application/json",
-                url : "${ctx}/sys/role/auth",
+                url : "${ctx}/sys/auth/role/${role.id}",
                 type : "post",
                 data : JSON.stringify(data),
                 success : function(response) {

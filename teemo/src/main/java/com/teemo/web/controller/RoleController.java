@@ -147,30 +147,4 @@ public class RoleController extends BaseController{
         Result result = new Result(1, "删除角色成功");
         writeJSON(response, result);
     }
-
-    @RequiresPermissions(value = "sys:role:view")
-    @RequestMapping(value = "/auth/{id}", method = RequestMethod.GET)
-    public ModelAndView auth(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("admin/role/auth");
-        if (id != null) {
-            Role role = roleService.get(id);
-            List<ResourceNode> resourceNodes = resourceService.findResourceNode(role);
-            mav.addObject("resourceNodes", resourceNodes);
-            mav.addObject("role", role);
-        }
-        return mav;
-    }
-
-    @RequiresPermissions(value = "sys:role:update")
-    @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public void authRole(HttpServletResponse response, @RequestBody String body) throws IOException {
-        HashSet<RoleResourcePermission> rrps = JSON.parseObject(body, new TypeReference<HashSet<RoleResourcePermission>>() {});
-        roleService.authRole(rrps);
-        User user = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
-        UserLogUtil.log(user.getUsername(), "角色授权成功", "被操作数据:{}", JSON.toJSONString(rrps));
-        Result result = new Result(1, "角色授权成功");
-        writeJSON(response, result);
-    }
-
 }

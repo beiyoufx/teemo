@@ -35,14 +35,14 @@ public class RoleService extends BaseService<Role> {
 
     /**
      * 更新角色信息和权限
+     * @param role 被授权角色
      * @param rrps 角色权限信息
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
-    public void authRole(Set<RoleResourcePermission> rrps) {
-        if (rrps != null && !rrps.isEmpty()) {
+    public void auth(Role role, Set<RoleResourcePermission> rrps) {
+        if (rrps != null) {
             // 删除角色原有权限信息
-            Long roleId = ((RoleResourcePermission)rrps.toArray()[0]).getRole().getId();
-            roleResourcePermissionService.deleteByRoleId(roleId);
+            roleResourcePermissionService.deleteByRoleId(role.getId());
             // 更新该角色所对应的权限信息
             for (RoleResourcePermission rrp : rrps) {
                 roleResourcePermissionService.persist(rrp);

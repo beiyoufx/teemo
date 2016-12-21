@@ -140,12 +140,8 @@ public class UserService extends BaseService<User> {
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
     public void auth(User user, Set<Role> roles) {
-        if (user != null && !roles.isEmpty()) {
-            Long userId = user.getId();
-            for (Role role : roles) {
-                userDao.addUserRole(userId, role.getId());
-            }
-        }
+        user.setRoles(roles);
+        merge(user);
     }
 
     /**

@@ -33,18 +33,6 @@ public class UserDao extends BaseDao<User> {
     }
 
     /**
-     * 根据用户主键和角色主键增加用户角色关系
-     * @param userId 用户ID
-     * @param roleId 角色ID
-     */
-    public void addUserRole(Long userId, Long roleId) {
-        Query query = getSession().createSQLQuery("insert into user_role (user_id, role_id) values (:userId, :roleId)");
-        query.setParameter("userId", userId);
-        query.setParameter("roleId", roleId);
-        query.executeUpdate();
-    }
-
-    /**
      * 部分更新用户表字段
      * 只更新以下字段：nickname/email/mobilePhone/departmentKey/status/modifyTime
      * @param user 待更新实体

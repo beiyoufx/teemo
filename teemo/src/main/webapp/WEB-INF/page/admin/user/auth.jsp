@@ -79,12 +79,12 @@
             var data = prepareRoles();
             $.ajax({
                 dataType : "json",
-                url : "${ctx}/sys/auth/user",
+                url : "${ctx}/sys/auth/user/${user.id}",
                 type : "post",
                 data : {
-                    userId : "${user.id}",
                     roleIds : data
                 },
+                traditional : true,
                 success : function(response) {
                     if (response.code == 1) {
                         parent.layer.msg("保存用户授权信息成功", {icon : 1});

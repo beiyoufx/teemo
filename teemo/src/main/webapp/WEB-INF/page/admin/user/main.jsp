@@ -92,7 +92,7 @@
         url : "${ctx}/sys/user/find",
         deleteUrl : "${ctx}/sys/user/delete",
         editUrl: "${ctx}/sys/user/edit",
-        authUrl: "${ctx}/sys/user/auth"
+        authUrl: "${ctx}/sys/auth/user"
     };
 
     function stateFormatter(value) {
@@ -102,7 +102,7 @@
     }
 
     function optionFormatter(value, row, index) {
-        var authHtml = "&nbsp;<shiro:hasPermission name="sys:user:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授 权</button></shiro:hasPermission>&nbsp;";
+        var authHtml = "&nbsp;<shiro:hasPermission name="sys:auth:update"><button type='button' class='fa fa-user btn btn-success' onclick='auth(" + row.id + ")'>授 权</button></shiro:hasPermission>&nbsp;";
         var editHtml = "&nbsp;<shiro:hasPermission name="sys:user:update"><button type='button' class='fa fa-edit btn btn-primary' onclick='editUser(" + row.id + ")'>编 辑</button></shiro:hasPermission>&nbsp;";
         var deleteHtml = "&nbsp;<shiro:hasPermission name="sys:user:delete"><button type='button' class='delete fa fa-times btn btn-default' onclick='commonDelete(" + row.id + ")'>删 除</button></shiro:hasPermission>&nbsp;";
         return "<div class='text-center'>" + authHtml + editHtml + deleteHtml + "</div>";
