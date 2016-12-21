@@ -44,9 +44,11 @@
                     <div class="table-wrap">
                         <div class="table-container">
                             <div class="btn-group hidden-xs" id="toolbar" role="group">
-                                <button type="button" class="btn btn-outline btn-primary" onclick="adddepartment()">
+                                <shiro:hasPermission name="sys:department:create">
+                                <button type="button" class="btn btn-outline btn-primary" onclick="addDepartment()">
                                     <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><span> 新增部门</span>
                                 </button>
+                                </shiro:hasPermission>
                             </div>
                             <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline" data-toolbar="#toolbar">
                                 <thead>
@@ -119,7 +121,7 @@
         return "<div class='text-center'>" + editHtml + deleteHtml + "</div>";
     }
 
-    function adddepartment() {
+    function addDepartment() {
         //iframe层
         parent.layer.open({
             type: 2,

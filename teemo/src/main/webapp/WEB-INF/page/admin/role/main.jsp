@@ -44,9 +44,11 @@
                     <div class="table-wrap">
                         <div class="table-container">
                             <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                <shiro:hasPermission name="sys:role:create">
                                 <button type="button" class="btn btn-outline btn-primary" onclick="addRole()">
                                     <i class="glyphicon glyphicon-plus" aria-hidden="true"></i><span> 新增角色</span>
                                 </button>
+                                </shiro:hasPermission>
                             </div>
                             <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline" data-toolbar="#toolbar">
                                 <thead>

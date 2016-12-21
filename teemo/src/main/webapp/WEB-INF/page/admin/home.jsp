@@ -41,7 +41,7 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
                                 <span class="block m-t-xs"><strong class="font-bold">${CurrentUser.nickname}</strong></span>
-                                <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
+                                <span class="text-muted text-xs block"><c:forEach var="role" items="${CurrentUser.roles}" begin="0" end="0" >${role.roleValue}</c:forEach><b class="caret"></b></span>
                             </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
