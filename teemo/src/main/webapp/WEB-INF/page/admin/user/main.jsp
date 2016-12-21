@@ -30,7 +30,7 @@
     <!-- Panel Other -->
     <div class="ibox float-e-margins">
         <div class="ibox-title">
-            <h5>用户管理</h5>
+            <h5>用户列表</h5>
             <div class="ibox-tools">
                 <a class="collapse-link">
                     <i class="fa fa-chevron-up"></i>
@@ -42,9 +42,13 @@
                 <div class="col-sm-12">
                     <!-- Pagination Table -->
                     <div class="table-wrap">
-                        <h4 class="table-title">用户列表</h4>
                         <div class="table-container">
-                            <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline">
+                            <div class="btn-group hidden-xs" id="toolbar" role="group">
+                                <button type="button" class="btn btn-danger">
+                                    <i class="" aria-hidden="true"></i><span> 批量删除</span>
+                                </button>
+                            </div>
+                            <table id="paginationTable" data-toggle="table" data-mobile-responsive="true" data-height="600" data-icon-size="outline" data-toolbar="#toolbar">
                                 <thead>
                                 <tr>
                                     <th data-checkbox="true"></th>

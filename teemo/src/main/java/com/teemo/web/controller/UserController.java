@@ -159,4 +159,14 @@ public class UserController extends BaseController {
         writeJSON(response, result);
     }
 
+    @RequiresPermissions(value = "sys:user:delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public void batchDelete(HttpServletResponse response, Long[] ids) throws IOException {
+        userService.logicDelete(ids);
+        User user = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
+        UserLogUtil.log(user.getUsername(), "删除用户成功", "被操作ID:{}", ids);
+        Result result = new Result(1, "删除用户成功");
+        writeJSON(response, result);
+    }
+
 }

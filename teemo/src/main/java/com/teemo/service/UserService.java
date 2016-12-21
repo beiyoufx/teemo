@@ -122,6 +122,17 @@ public class UserService extends BaseService<User> {
         return result;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void logicDelete(Serializable... ids) {
+        for (Serializable uid : ids) {
+            User user = get(uid);
+            if (user != null && Boolean.FALSE.equals(user.getDeleted())) {
+                user.setDeleted(Boolean.TRUE);
+                update(user);
+            }
+        }
+    }
+
     /**
      * 根据用户删除用户角色关系
      * @param user 用户
