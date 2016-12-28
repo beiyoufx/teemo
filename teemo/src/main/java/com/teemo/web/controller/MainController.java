@@ -7,7 +7,9 @@ package com.teemo.web.controller;
 
 import com.teemo.core.Constants;
 import com.teemo.dto.Result;
+import com.teemo.entity.Menu;
 import com.teemo.entity.User;
+import com.teemo.service.ResourceService;
 import com.teemo.service.UserService;
 import core.web.controller.BaseController;
 import org.apache.shiro.SecurityUtils;
@@ -26,6 +28,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author yongjie.teng
@@ -37,6 +40,8 @@ import java.io.IOException;
 public class MainController extends BaseController {
     @Resource
     private UserService userService;
+    @Resource
+    private ResourceService resourceService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String goLogin() {
@@ -106,6 +111,8 @@ public class MainController extends BaseController {
         Session session = subject.getSession();
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if (user != null) {
+            List<Menu> menus = resourceService.findMenu(user);
+            mav.addObject("menus", menus);
             mav.setViewName("admin/home");
         }
         return mav;

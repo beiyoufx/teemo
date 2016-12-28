@@ -73,39 +73,22 @@
                         </li>
                     </ul>
                 </li>
+                <c:forEach var="menu" items="${menus}">
                 <li>
                     <a href="#">
-                        <i class="fa fa-tv"></i>
-                        <span class="nav-label">系统管理</span>
+                        <i class="${menu.menuIcon}"></i>
+                        <span class="nav-label">${menu.menuValue}</span>
                         <span class="fa arrow"></span>
                     </a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a class="J_menuItem" href="${ctx}/sys/user/main">用户管理</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="${ctx}/sys/department/main">部门管理</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="${ctx}/sys/role/main">角色管理</a>
-                        </li>
-                        <li>
-                            <a class="J_menuItem" href="${ctx}/sys/permission/main">权限管理</a>
+                            <c:forEach var="childMenu" items="${menu.children}">
+                            <a class="J_menuItem" href="${ctx}${childMenu.url}" data-index="0">${childMenu.menuValue}</a>
+                            </c:forEach>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-area-chart"></i>
-                        <span class="nav-label">系统监控</span>
-                        <span class="fa arrow"></span>
-                    </a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a class="J_menuItem" href="${ctx}/druid">Druid</a>
-                        </li>
-                    </ul>
-                </li>
+                </c:forEach>
                 <li>
                     <a href="#">
                         <i class="fa fa fa-bar-chart-o"></i>

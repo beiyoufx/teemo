@@ -15,6 +15,7 @@ import core.util.StringUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -133,8 +134,8 @@ public class ResourceService extends BaseService<Resource> {
 
         // 当前资源没有子资源
         if (resources == null || resources.isEmpty()) {
-            // 既没有子资源有没有资源标识符的资源直接过滤掉
-            if (StringUtil.isEmpty(resource.getResourceKey())) {
+            // 既没有子资源有没有资源标识符的资源直接过滤掉，菜单也不做授权展示
+            if (StringUtil.isEmpty(resource.getResourceKey()) || ResourceType.menu.equals(resource.getType())) {
 
                 return null;
             } else {
@@ -167,7 +168,12 @@ public class ResourceService extends BaseService<Resource> {
                     childNodes.add(childNode);
                 }
             }
-            node.setChildren(childNodes);
+            // 如果没有子节点，删除该授权项
+            if (childNodes.isEmpty()) {
+                node = null;
+            } else {
+                node.setChildren(childNodes);
+            }
 
             return node;
         }
@@ -181,5 +187,85 @@ public class ResourceService extends BaseService<Resource> {
      */
     private boolean hasPermission(String permission, Set<String> actualPermissions) {
         return actualPermissions.contains(permission);
+    }
+
+    /**
+     * 获取主菜单
+     * @return 菜单列表
+     */
+    public List<Menu> findMenu(User user) {
+        List<Menu> menus = new ArrayList<Menu>();
+
+        Set<Role> roles = user.getRoles();
+        if (user != null && roles != null) {
+            // 先组装用户的权限列表
+            Set<String> permissions = new HashSet<String>();
+            for (Role role : roles) {
+                Set<String> tmpPermissions = authorizationService.findPermissionsStr(role);
+                if (!tmpPermissions.isEmpty()) {
+                    permissions.addAll(tmpPermissions);
+                }
+            }
+            Long rootId = getRootResourceId();
+            List<Resource> resources = findChildren(rootId);
+
+            // 资源转化成菜单
+            for (Resource resource : resources) {
+                Menu menu = convertToMenu(resource, permissions);
+                if (menu != null) {
+                    menus.add(menu);
+                }
+            }
+        }
+
+        return menus;
+    }
+
+    /**
+     * 递归生成菜单树
+     * @param resource 资源
+     * @param actualPermissions 角色对资源实际拥有的权限
+     * @return 菜单
+     */
+    public Menu convertToMenu(Resource resource, Set<String> actualPermissions) {
+        List<Resource> resources = findChildren(resource.getId());
+        Menu menu = new Menu();
+        menu.setMenuKey(resource.getResourceKey());
+        menu.setMenuValue(resource.getResourceValue());
+        menu.setUrl(resource.getUrl());
+        menu.setMenuIcon(resource.getMenuIcon());
+        menu.setSequence(resource.getSequence());
+
+        List<Menu> childMenus = new ArrayList<Menu>();
+
+        // 当前资源没有子资源，所有人可见
+        if (resources == null || resources.isEmpty()) {
+
+            return menu;
+        } else { // 有子资源，根据子资源进行权限鉴定
+            boolean authorized = false;
+            for (Resource childResource : resources) {
+                // 只将资源类型为菜单的资源添加到菜单列表中
+                if (ResourceType.menu.equals(childResource.getType())) {
+                    Menu childMenu = convertToMenu(childResource, actualPermissions);
+                    if (childMenu != null) {
+                        childMenus.add(childMenu);
+                        authorized = true;
+                    }
+                } else {
+                    if (ResourceType.view.equals(childResource.getType()) || ResourceType.entity.equals(childResource.getType())) {// 实体和视图可以配置权限
+                        String actualResourceKey = findActualResourceKey(childResource);
+                        authorized = hasPermission(actualResourceKey + ":" + ResourceType.view.name(), actualPermissions) ? true : authorized;
+                    }
+                }
+            }
+            // 子级资源鉴权通过，增加子级菜单
+            if (authorized) {
+                menu.setChildren(childMenus);
+            } else { // 子级资源鉴权不通过，将当前菜单删除
+                menu = null;
+            }
+            return menu;
+        }
     }
 }

@@ -73,6 +73,18 @@ public class Resource extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ResourceType type;
 
+    /**
+     * 资源图标
+     */
+    @Column(name = "menu_icon", length = 128)
+    private String menuIcon;
+
+    /**
+     * 菜单排序
+     */
+    @Column(name = "sequence")
+    private Integer sequence;
+
     public Long getId() {
         return id;
     }
@@ -135,5 +147,21 @@ public class Resource extends BaseEntity {
 
     public void setType(ResourceType type) {
         this.type = type;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon;
+    }
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
     }
 }
