@@ -13,6 +13,8 @@ import core.support.SearchRequest;
 import core.support.search.Searchable;
 import core.util.StringUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -267,5 +269,15 @@ public class ResourceService extends BaseService<Resource> {
             }
             return menu;
         }
+    }
+
+    /**
+     * 删除资源角色关系
+     * @param resource 资源
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void deleteResource(Resource resource) {
+        resourceDao.deleteRoleResource(resource.getId());
+        delete(resource);
     }
 }

@@ -39,7 +39,7 @@ function getContextPath() {
 
 function commonDelete(id) {
     //询问框
-    parent.layer.confirm('删除之后不可恢复，您确定要删除该用户吗？', {
+    parent.layer.confirm('删除之后不可恢复，您确定要删除吗？', {
         icon: 0,
         title: '提示',
         btn: ['删除','取消'], //按钮
