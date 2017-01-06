@@ -31,6 +31,31 @@
 </head>
 
 <body class="gray-bg">
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-sm-12">
+        <blockquote class="text-warning" style="font-size:14px">Teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用功能，如菜单管理、权限管理、缓存、底层代码抽象
+            <br>用到的技术
+            <br>orm框架：Hibernate 5.0.2
+            <br>ioc容器：Spring 4.2.2
+            <br>web框架：Spring MVC 4.2.2
+            <br>安全框架：Shiro 1.2.1
+            <br>数据库源：Druid 1.0.26
+            <br>日志组件：slf4j、log4j
+            <br>JSON组件：fastjson
+            <br>任务调度：quartz
+            <br>模板：jsp、freemarker
+            <br>前端所有组件均可自由选择和切换，后台模板使用H+
+            <br>主框架：bootstrap
+            <br>表格组件：bootstrap table
+            <br>校验组件：jquery validate
+            <br>弹层组件：layer
+            <br>其他：i-checks
+            <h4 class="text-primary">欢迎来github start <a href="https://github.com/beiyoufx/teemo" target="_blank">https://github.com/beiyoufx/teemo</a></h4>
+        </blockquote>
+
+        <hr>
+    </div>
+</div>
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-3">
