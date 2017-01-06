@@ -8,6 +8,7 @@ package com.teemo.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "dynamic_property")
+@DynamicInsert(value = true)
 public class DynamicProperty extends BaseEntity implements LogicDeletable {
     private static final long serialVersionUID = 570799249720526949L;
     /**
@@ -33,20 +35,26 @@ public class DynamicProperty extends BaseEntity implements LogicDeletable {
     /**
      * 动态属性key，逻辑上唯一，数据库中存在同key的多版本记录
      */
-    @Column(name = "key", nullable = false, length = 64)
-    private String key;
+    @Column(name = "property_key", nullable = false, length = 64, unique = true)
+    private String dynamicPropertyKey;
 
     /**
      * 动态属性值
      */
-    @Column(name = "value", nullable = false, length = 128)
-    private String value;
+    @Column(name = "property_value", nullable = false, length = 128)
+    private String dynamicPropertyValue;
 
     /**
      * 创建或更新该记录的用户名
      */
     @Column(name = "author", length = 32)
     private String author;
+
+    /**
+     * 动态属性描述
+     */
+    @Column(name = "description", length = 128)
+    private String description;
 
     /**
      * 创建该动态属性的时间
@@ -85,20 +93,20 @@ public class DynamicProperty extends BaseEntity implements LogicDeletable {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
+    public String getDynamicPropertyKey() {
+        return dynamicPropertyKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setDynamicPropertyKey(String dynamicPropertyKey) {
+        this.dynamicPropertyKey = dynamicPropertyKey;
     }
 
-    public String getValue() {
-        return value;
+    public String getDynamicPropertyValue() {
+        return dynamicPropertyValue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setDynamicPropertyValue(String dynamicPropertyValue) {
+        this.dynamicPropertyValue = dynamicPropertyValue;
     }
 
     public String getAuthor() {
@@ -107,6 +115,14 @@ public class DynamicProperty extends BaseEntity implements LogicDeletable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreateTime() {

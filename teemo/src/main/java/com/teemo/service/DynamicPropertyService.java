@@ -9,6 +9,8 @@ import com.teemo.dao.DynamicPropertyDao;
 import com.teemo.entity.DynamicProperty;
 import core.service.BaseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -25,5 +27,30 @@ public class DynamicPropertyService extends BaseService<DynamicProperty> {
     public void setDynamicPropertyDao(DynamicPropertyDao dynamicPropertyDao) {
         this.dynamicPropertyDao = dynamicPropertyDao;
         this.dao = dynamicPropertyDao;
+    }
+
+    /**
+     * 更新属性字段，key保持不变，version+0.1
+     * @param dynamicProperty 新版本的动态属性
+     */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public void updateVersion(DynamicProperty dynamicProperty) {
+        if (dynamicProperty.getId() != null) {
+            dynamicPropertyDao.mergeDynamicProperty(dynamicProperty);
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
+    public boolean logicDelete(Long id) {
+        boolean result = false;
+        if (id != null) {
+            DynamicProperty dynamicProperty = get(id);
+            if (dynamicProperty != null && Boolean.FALSE.equals(dynamicProperty.getDeleted())) {
+                dynamicProperty.setDeleted(Boolean.TRUE);
+                update(dynamicProperty);
+                result = true;
+            }
+        }
+        return result;
     }
 }

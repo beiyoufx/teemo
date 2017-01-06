@@ -10,9 +10,9 @@ import com.teemo.core.util.UserLogUtil;
 import com.teemo.dto.BTQueryParameter;
 import com.teemo.dto.Page;
 import com.teemo.dto.Result;
-import com.teemo.entity.Department;
+import com.teemo.entity.DynamicProperty;
 import com.teemo.entity.User;
-import com.teemo.service.DepartmentService;
+import com.teemo.service.DynamicPropertyService;
 import core.support.Condition;
 import core.support.PageRequest;
 import core.support.SearchRequest;
@@ -37,37 +37,37 @@ import java.util.List;
 
 /**
  * @author yongjie.teng
- * @date 16-12-18 上午10:39
+ * @date 17-1-6 上午11:09
  * @email yongjie.teng@foxmail.com
  * @package com.teemo.web.controller
  */
 @Controller
-@RequestMapping("/sys/department")
-public class DepartmentController extends BaseController {
+@RequestMapping("/sys/property")
+public class DynamicPropertyController extends BaseController {
     @Resource
-    private DepartmentService departmentService;
+    private DynamicPropertyService dynamicPropertyService;
 
-    @RequiresPermissions(value = "sys:department:view")
+    @RequiresPermissions(value = "sys:dynamicProperty:view")
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(HttpServletResponse response) throws IOException {
-        return "admin/department/main";
+        return "admin/property/main";
     }
 
-    @RequiresPermissions(value = "sys:department:view")
+    @RequiresPermissions(value = "sys:dynamicProperty:view")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public void get(HttpServletResponse response,
                     @PathVariable Long id) throws IOException {
-        Department department = departmentService.get(id);
-        writeJSON(response, department);
+        DynamicProperty dynamicProperty = dynamicPropertyService.get(id);
+        writeJSON(response, dynamicProperty);
     }
 
-    @RequiresPermissions(value = "sys:department:view")
+    @RequiresPermissions(value = "sys:dynamicProperty:view")
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     public void find(HttpServletResponse response, BTQueryParameter queryParameter) throws IOException {
-        Page<Department> page = new Page<Department>();
+        Page<DynamicProperty> page = new Page<DynamicProperty>();
         if (queryParameter != null) {
             // 设置排序
-            Sort sort = new Sort(Sort.Direction.desc, "id");
+            Sort sort = new Sort(Sort.Direction.desc, "modifyTime");
             if (StringUtil.isNotEmpty(queryParameter.getSortName())) {
                 if (Sort.Direction.asc.name().equalsIgnoreCase(queryParameter.getSortOrder())) {
                     sort = new Sort(Sort.Direction.asc, queryParameter.getSortName());
@@ -86,68 +86,63 @@ public class DepartmentController extends BaseController {
             // 设置查询条件
             Searchable searchable = SearchRequest.newSearchRequest(sort, pageRequest);
             if (StringUtil.isNotEmpty(queryParameter.getSearchText())) {
-                Condition condition = Condition.newCondition(SearchType.OR, "departmentKey", SearchOperator.like, queryParameter.getSearchText());
-                condition.addChildCondition(Condition.newCondition(SearchType.OR, "departmentValue", SearchOperator.like, queryParameter.getSearchText()));
+                Condition condition = Condition.newCondition(SearchType.OR, "key", SearchOperator.like, queryParameter.getSearchText());
+                condition.addChildCondition(Condition.newCondition(SearchType.OR, "value", SearchOperator.like, queryParameter.getSearchText()));
                 searchable.addSearchFilter(condition);
             }
             searchable.addSearchFilter(Condition.newCondition(SearchType.AND ,"deleted", SearchOperator.eq, Boolean.FALSE));
 
-            List<Department> departments = departmentService.find(searchable);
-            Long total = departmentService.count(searchable);
+            List<DynamicProperty> dynamicProperties = dynamicPropertyService.find(searchable);
+            Long total = dynamicPropertyService.count(searchable);
             page.setTotal(total);
             page.setPageSize(queryParameter.getPageSize());
-            page.setRecords(departments);
+            page.setRecords(dynamicProperties);
         }
         writeJSON(response, page);
     }
 
-    @RequiresPermissions(value = "sys:department:create")
+    @RequiresPermissions(value = "sys:dynamicProperty:create")
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ModelAndView add() throws IOException {
-        ModelAndView mav = new ModelAndView();
-        List<Department> departments = departmentService.findAll();
-        mav.addObject("departments", departments);
-        mav.setViewName("admin/department/edit");
-        return mav;
+    public String add() throws IOException {
+        return "admin/property/edit";
     }
 
-    @RequiresPermissions(value = "sys:department:update")
+    @RequiresPermissions(value = "sys:dynamicProperty:update")
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView edit(HttpServletResponse response, @PathVariable Long id) throws IOException {
         ModelAndView mav = new ModelAndView();
-        Department department = departmentService.get(id);
-        List<Department> departments = departmentService.findAll();
-        mav.addObject("department", department);
-        mav.addObject("departments", departments);
-        mav.setViewName("admin/department/edit");
+        DynamicProperty dynamicProperty = dynamicPropertyService.get(id);
+        mav.addObject("dynamicProperty", dynamicProperty);
+        mav.setViewName("admin/property/edit");
         return mav;
     }
 
-    @RequiresPermissions(value = "sys:department:update")
+    @RequiresPermissions(value = "sys:dynamicProperty:update")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public void save(HttpServletResponse response, Department department) throws IOException {
-        if (department.getId() == null) {
-            departmentService.persist(department);
-        } else {
-            departmentService.merge(department);
-        }
+    public void save(HttpServletResponse response, DynamicProperty dynamicProperty) throws IOException {
         User currentUser = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
-        UserLogUtil.log(currentUser.getUsername(), "保存部门信息成功", "被操作部门Key:{}", department.getDepartmentKey());
-        Result result = new Result(1, "保存部门信息成功.");
+        if (dynamicProperty.getId() == null) {
+            dynamicProperty.setAuthor(currentUser.getUsername());
+            dynamicPropertyService.persist(dynamicProperty);
+        } else {
+            dynamicPropertyService.updateVersion(dynamicProperty);
+        }
+        UserLogUtil.log(currentUser.getUsername(), "保存动态属性信息成功", "被操作动态属性Key:{}", dynamicProperty.getDynamicPropertyKey());
+        Result result = new Result(1, "保存动态属性信息成功.");
         writeJSON(response, result);
     }
 
-    @RequiresPermissions(value = "sys:department:delete")
+    @RequiresPermissions(value = "sys:dynamicProperty:delete")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public void delete(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        boolean success = departmentService.logicDelete(id);
+        boolean success = dynamicPropertyService.logicDelete(id);
         Result result;
         if (success) {
             User user = (User) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
-            UserLogUtil.log(user.getUsername(), "删除部门成功", "被操作ID:{}", id);
-            result = new Result(1, "删除部门成功");
+            UserLogUtil.log(user.getUsername(), "删除动态属性成功", "被操作ID:{}", id);
+            result = new Result(1, "删除动态属性成功");
         } else {
-            result = new Result(-1, "删除部门失败");
+            result = new Result(-1, "删除动态属性失败");
         }
         writeJSON(response, result);
     }

@@ -17,9 +17,9 @@ public final class DPUtil {
         if (dynamicPropertyService == null) {
             dynamicPropertyService = SpringUtil.getBean("dynamicPropertyService");
         }
-        DynamicProperty dynamicProperty = dynamicPropertyService.get("key", key);
+        DynamicProperty dynamicProperty = dynamicPropertyService.get("dynamicPropertyKey", key);
         if (dynamicProperty != null) {
-            return dynamicProperty.getValue();
+            return dynamicProperty.getDynamicPropertyValue();
         }
         return null;
     }
