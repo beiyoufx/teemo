@@ -7,6 +7,8 @@ package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
@@ -18,6 +20,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "permission")
+@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
 @JSONType(orders = {"id", "permissionKey", "permissionValue", "description", "available"})
 public class Permission extends BaseEntity {
     private static final long serialVersionUID = 8805356697377561479L;

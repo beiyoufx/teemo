@@ -4,7 +4,7 @@
     <!-- 按照每天生成日志文件 -->
     <appender name="BASE" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="File" value="${catalina.home}/logs/teemo/teemo.log" />
-        <param name="encoding" value="utf-8"></param>
+        <param name="encoding" value="utf-8" />
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c %x - %m%n" />
@@ -19,7 +19,7 @@
     <!-- 用户操作日志，日滚 -->
     <appender name="USER_LOG" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="File" value="${catalina.home}/logs/teemo/user/user.log" />
-        <param name="encoding" value="utf-8"></param>
+        <param name="encoding" value="utf-8" />
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c %x - %m%n" />
@@ -43,6 +43,13 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="ASYNC_USER_LOG" />
     </logger>
+
+    <!-- hibernate缓存分析日志，生产环境请移除 -->
+    <logger name="org.hibernate.cache" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
     <!-- 基本日志级别为INFO -->
     <root>
         <level value="INFO" />

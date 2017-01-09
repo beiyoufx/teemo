@@ -43,25 +43,18 @@
                 <prop key="hibernate.jdbc.fetch_size">30</prop>
                 <prop key="hibernate.jdbc.batch_size">30</prop>
                 <prop key="hibernate.jdbc.batch_versioned_data">true</prop>
-                <!--<prop key="hibernate.cache.use_second_level_cache">true</prop>-->
-                <!--<prop key="hibernate.cache.use_query_cache">true</prop>-->
+                <!-- 开启二级缓存 -->
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <!-- 开启查询缓存 -->
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <!-- 高速缓存提供程序 -->
                 <!--<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop>-->
-                <!--<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>-->
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="javax.persistence.validation.mode">none</prop>
                 <!-- hibernate.id.new_generator_mappings参数设置：MySQL和SQL Server为false，Oracle为true -->
                 <prop key="hibernate.id.new_generator_mappings">false</prop>
-                <!-- 此注释里代码只跟全文检索有关，如需全文检索功能，放开注释，然后找到本文件的第87行和web.xml的第15行放开注释，重启应用服务器即可。可配置，不影响框架使用。苹果Mac电脑需要修改hibernate.search.default.indexBase参数。 -->
-                <!--
-                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
-                <prop key="hibernate.search.default.indexBase">D:/teemoLuceneIndexes</prop>
-                <prop key="hibernate.search.default.refresh">1800</prop>
-                <prop key="hibernate.search.default.indexwriter.max_merge_docs">100</prop>
-                <prop key="hibernate.search.default.indexwriter.ram_buffer_size">64</prop>
-                <prop key="hibernate.search.default.optimizer.operation_limit.max">1000</prop>
-                <prop key="hibernate.search.default.optimizer.transaction_limit.max">100</prop>
-                -->
             </props>
         </property>
         <property name="dataSource" ref="dataSource" />
@@ -76,25 +69,5 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
-
-    <!-- 此注释里代码的作用是应用服务器每次启动都生成索引。在SystemInitListener里执行。可配置，不影响框架使用。 -->
-    <!-- <bean id="informationService" class="com.teemo.service.sys.impl.InformationServiceImpl" /> -->
-
-    <!--<bean id="indexingInformationJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
-    <!--<property name="targetObject" ref="informationServiceImpl" />-->
-    <!--<property name="targetMethod" value="indexingInformation" />-->
-    <!--</bean>-->
-    <!-- 每天凌晨2点执行定时任务，生成索引。 -->
-    <!--<bean id="indexingInformationJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
-    <!--<property name="jobDetail" ref="indexingInformationJob" />-->
-    <!--<property name="cronExpression" value="0 0 2 * * ?" />-->
-    <!--</bean>-->
-    <!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">-->
-    <!--<property name="triggers">-->
-    <!--<list>-->
-    <!--<ref bean="indexingInformationJobTrigger" />-->
-    <!--</list>-->
-    <!--</property>-->
-    <!--</bean>-->
 
 </beans>

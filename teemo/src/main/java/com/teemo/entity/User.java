@@ -9,6 +9,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -28,6 +30,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @DynamicInsert(value = true)
+@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
 @JSONType(orders = {"id", "username", "nickname", "email", "mobilePhone", "status", "departmentKey", "createTime", "modifyTime", "roles"},
             ignores = {"password", "salt", "deleted"})
 public class User extends BaseEntity implements LogicDeletable {
@@ -115,6 +118,7 @@ public class User extends BaseEntity implements LogicDeletable {
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+    @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Role> roles = new HashSet<Role>();
 
     public Long getId() {

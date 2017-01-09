@@ -7,6 +7,8 @@ package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -22,6 +24,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "role")
+@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
 @JSONType(orders = {"id", "roleKey", "roleValue", "description", "available"}, ignores = {"resourcePermissions"})
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -367123952261959248L;
@@ -61,6 +64,7 @@ public class Role extends BaseEntity {
      * 角色与资源关系
      */
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<RoleResourcePermission> resourcePermissions = new HashSet<RoleResourcePermission>();
 
     public Long getId() {

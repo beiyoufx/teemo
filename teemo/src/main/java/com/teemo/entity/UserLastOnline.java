@@ -7,6 +7,8 @@ package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.teemo.core.entity.BaseEntity;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -23,6 +25,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "user_last_online")
+@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserLastOnline extends BaseEntity {
     private static final long serialVersionUID = -7484912503446573789L;
     /**

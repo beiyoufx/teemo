@@ -2,6 +2,8 @@ package com.teemo.entity;
 
 import com.teemo.core.entity.BaseEntity;
 import core.support.repository.CollectionToStringUserType;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.Parameter;
@@ -27,6 +29,7 @@ import java.util.Set;
 )
 @Entity
 @Table(name = "role_resource_permission")
+@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleResourcePermission extends BaseEntity {
     private static final long serialVersionUID = 4968928107546858204L;
     /**
@@ -46,19 +49,19 @@ public class RoleResourcePermission extends BaseEntity {
     private Role role;
 
     /**
-     * 资源主键
-     */
-    @Column(name = "resource_id")
-    private Long resourceId;
-
-
-    /**
      * 权限主键集合
      * 存储格式为：id1,id2,id3
      */
     @Column(name = "permission_ids")
     @Type(type = "SetToStringUserType")
     private Set<Long> permissionIds;
+
+
+    /**
+     * 资源主键
+     */
+    @Column(name = "resource_id")
+    private Long resourceId;
 
     public Long getId() {
         return id;

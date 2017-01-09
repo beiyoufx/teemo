@@ -6,8 +6,11 @@
 package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -22,6 +25,8 @@ import java.util.Date;
 @Entity
 @Table(name = "dynamic_property")
 @DynamicInsert(value = true)
+@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
+@JSONType(orders = {"id", "dynamicPropertyKey", "dynamicPropertyValue", "author", "description", "version", "createTime", "modifyTime"})
 public class DynamicProperty extends BaseEntity implements LogicDeletable {
     private static final long serialVersionUID = 570799249720526949L;
     /**
