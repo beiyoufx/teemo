@@ -43,6 +43,7 @@ public class UserService extends BaseService<User> {
         this.dao = userDao;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {RuntimeException.class})
     public User register(User user) {
         String salt = randomSalt();
         user.setSalt(salt);

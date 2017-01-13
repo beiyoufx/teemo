@@ -7,8 +7,14 @@
                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="shiroSecurityRealm" class="com.teemo.core.security.ShiroSecurityRealm"/>
+
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+    </bean>
+
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="shiroSecurityRealm" />
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">

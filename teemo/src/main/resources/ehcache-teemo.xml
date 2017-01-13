@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="teemo">
+    <!-- 缓存写入文件目录 -->
+    <diskStore path="java.io.tmpdir/teemo" />
+
+    <!-- 数据过期策略 -->
+    <defaultCache
+            maxElementsInMemory="1000"
+            eternal="false"
+            overflowToDisk="true"
+            timeToIdleSeconds="180"
+            timeToLiveSeconds="180"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120" />
+</ehcache>

@@ -50,6 +50,7 @@
                 <!-- 高速缓存提供程序 -->
                 <!--<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop>-->
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">ehcache-hibernate.xml</prop>
                 <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="javax.persistence.validation.mode">none</prop>
