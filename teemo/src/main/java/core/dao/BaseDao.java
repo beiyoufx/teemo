@@ -9,6 +9,7 @@ import core.support.Condition;
 import core.support.SearchRequest;
 import core.support.Sort;
 import core.support.page.Pageable;
+import core.support.repository.EnabledQueryCache;
 import core.support.search.SearchFilter;
 import core.support.search.Searchable;
 import core.util.ReflectUtil;
@@ -18,6 +19,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -36,7 +38,8 @@ import java.util.Map;
  */
 public abstract class BaseDao<E> implements Dao<E> {
     private SessionFactory sessionFactory;
-    protected Class<E> entityClass;
+    private Class<E> entityClass;
+    private boolean enabledQueryCache = false;
 
     public SessionFactory getSessionFactory() {
         return this.sessionFactory;
@@ -53,6 +56,12 @@ public abstract class BaseDao<E> implements Dao<E> {
 
     public BaseDao() {
         this.entityClass = ReflectUtil.findParameterizedType(getClass());
+
+        // 根据注解决定是否启动Hibernate 查询缓存
+        EnabledQueryCache enabledQueryCacheAnnotation = AnnotationUtils.findAnnotation(this.entityClass, EnabledQueryCache.class);
+        if (enabledQueryCacheAnnotation != null) {
+            this.enabledQueryCache = enabledQueryCacheAnnotation.value();
+        }
     }
 
     @Override
@@ -172,6 +181,7 @@ public abstract class BaseDao<E> implements Dao<E> {
         }
 
         Query query = getSession().createQuery(sb.toString());
+        enableQueryCache(query);
         if (searchable.hasSearchFilter()) {
             prepareValues(query, searchable);
         }
@@ -211,6 +221,7 @@ public abstract class BaseDao<E> implements Dao<E> {
     @Override
     public List<E> findAll(Sort sort, Integer maxResults) {
         Criteria criteria = getSession().createCriteria(this.entityClass);
+        enableQueryCache(criteria);
         /*
          在被查询实体有left join操作时，该设置被用来进行重复数据的合并
          但是由此会引发另外一个问题，即：hibernate的元查询maxResults在查询时就已确定，而distinct entity是对实体的操作
@@ -260,6 +271,8 @@ public abstract class BaseDao<E> implements Dao<E> {
         }
 
         Query query = getSession().createQuery(sb.toString());
+        enableQueryCache(query);
+
         if (searchable.hasSearchFilter()) {
             prepareValues(query, searchable);
         }
@@ -284,6 +297,7 @@ public abstract class BaseDao<E> implements Dao<E> {
         }
 
         Query query = getSession().createQuery(sb.toString());
+        enableQueryCache(query);
         if (searchable.hasSearchFilter()) {
             prepareValues(query, searchable);
         }
@@ -438,5 +452,25 @@ public abstract class BaseDao<E> implements Dao<E> {
             hql.append(")");
         }
         return pos;
+    }
+
+    /**
+     * 应用查询缓存
+     * @param query
+     */
+    protected void enableQueryCache(Query query) {
+        if (enabledQueryCache) {
+            query.setCacheable(true);
+        }
+    }
+
+    /**
+     * 应用查询缓存
+     * @param criteria
+     */
+    protected void enableQueryCache(Criteria criteria) {
+        if (enabledQueryCache) {
+            criteria.setCacheable(true);
+        }
     }
 }

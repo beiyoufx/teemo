@@ -8,6 +8,7 @@ package com.teemo.entity;
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
 import com.teemo.core.entity.LogicDeletable;
+import core.support.repository.EnabledQueryCache;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -24,6 +25,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "department")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
+@EnabledQueryCache
 @JSONType(orders = {"id", "departmentKey", "departmentValue", "parentId", "description"})
 public class Department extends BaseEntity implements LogicDeletable {
     private static final long serialVersionUID = -359007150299161832L;

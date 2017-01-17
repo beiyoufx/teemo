@@ -8,6 +8,7 @@ package com.teemo.service;
 import com.teemo.dao.DynamicPropertyDao;
 import com.teemo.entity.DynamicProperty;
 import core.service.BaseService;
+import core.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,5 +53,17 @@ public class DynamicPropertyService extends BaseService<DynamicProperty> {
             }
         }
         return result;
+    }
+
+    /**
+     * 根据动态属性的Key获取实体
+     * @param propertyKey 动态属性Key
+     * @return 实体
+     */
+    public DynamicProperty getByPropertyKey(String propertyKey) {
+        if (StringUtil.isEmpty(propertyKey)) {
+            return null;
+        }
+        return get("dynamicPropertyKey", propertyKey);
     }
 }

@@ -7,6 +7,7 @@ package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
+import core.support.repository.EnabledQueryCache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
 
@@ -25,6 +26,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
+@EnabledQueryCache
 @JSONType(orders = {"id", "roleKey", "roleValue", "description", "available"}, ignores = {"resourcePermissions"})
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -367123952261959248L;

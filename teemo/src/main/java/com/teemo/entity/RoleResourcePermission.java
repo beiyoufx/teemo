@@ -2,6 +2,7 @@ package com.teemo.entity;
 
 import com.teemo.core.entity.BaseEntity;
 import core.support.repository.CollectionToStringUserType;
+import core.support.repository.EnabledQueryCache;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -30,6 +31,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role_resource_permission")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
+@EnabledQueryCache
 public class RoleResourcePermission extends BaseEntity {
     private static final long serialVersionUID = 4968928107546858204L;
     /**

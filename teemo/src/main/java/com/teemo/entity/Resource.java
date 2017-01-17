@@ -7,6 +7,7 @@ package com.teemo.entity;
 
 import com.alibaba.fastjson.annotation.JSONType;
 import com.teemo.core.entity.BaseEntity;
+import core.support.repository.EnabledQueryCache;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -21,6 +22,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "resource")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
+@EnabledQueryCache
 @JSONType(orders = {"id", "resourceKey", "resourceValue", "url", "parentId", "parentIds", "available"})
 public class Resource extends BaseEntity {
     private static final long serialVersionUID = -7686411622173094721L;
