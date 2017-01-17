@@ -23,7 +23,7 @@ import javax.persistence.*;
 @Table(name = "resource")
 @Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
 @EnabledQueryCache
-@JSONType(orders = {"id", "resourceKey", "resourceValue", "url", "parentId", "parentIds", "available"})
+@JSONType(orders = {"id", "resourceKey", "resourceValue", "url", "parentId", "parentIds", "type", "menuIcon", "sequence", "available"})
 public class Resource extends BaseEntity {
     private static final long serialVersionUID = -7686411622173094721L;
     /**
