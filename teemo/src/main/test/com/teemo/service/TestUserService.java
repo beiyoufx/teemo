@@ -24,11 +24,20 @@ public class TestUserService {
     }
 
     @Test
+    public void testGet() {
+        User user = userService.get(1L);
+        System.out.println(user);
+        User user2 = userService.get(1L);
+        System.out.println(user2);
+    }
+
+    @Test
     public void testGetByEmail() {
         String email = "mayun@alibaba.com";
-        User user = userService.getByEmail(email);
-
-        Assert.assertNotNull(user);
+        User user1 = userService.getByEmail(email);
+        System.out.println(user1);
+        User user2 = userService.getByEmail(email);
+        System.out.println(user2);
     }
 
     @Test
@@ -41,9 +50,10 @@ public class TestUserService {
 
     @Test
     public void testFind() {
-        String mobilePhone = "123";
+        String mobilePhone = "18311113333";
         List<User> users = userService.find("mobilePhone", mobilePhone);
-
-        Assert.assertEquals(2, users.size());
+        System.out.println(users);
+        List<User> users2 = userService.find("mobilePhone", mobilePhone);
+        System.out.println(users2);
     }
 }

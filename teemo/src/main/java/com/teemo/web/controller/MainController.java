@@ -111,7 +111,7 @@ public class MainController extends BaseController {
         Session session = subject.getSession();
         User user = (User) session.getAttribute(Constants.CURRENT_USER);
         if (user != null) {
-            List<Menu> menus = resourceService.findMenu(user);
+            List<Menu> menus = resourceService.findMenu(user.getRoles());
             mav.addObject("menus", menus);
             mav.setViewName("admin/home");
         }

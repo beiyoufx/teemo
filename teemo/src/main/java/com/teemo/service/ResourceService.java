@@ -192,14 +192,14 @@ public class ResourceService extends BaseService<Resource> {
     }
 
     /**
-     * 获取主菜单
+     * 根据角色集合获取主菜单
+     * @param roles 角色集合
      * @return 菜单列表
      */
-    public List<Menu> findMenu(User user) {
+    public List<Menu> findMenu(Set<Role> roles) {
         List<Menu> menus = new ArrayList<Menu>();
 
-        Set<Role> roles = user.getRoles();
-        if (user != null && roles != null) {
+        if (roles != null && !roles.isEmpty()) {
             // 先组装用户的权限列表
             Set<String> permissions = new HashSet<String>();
             for (Role role : roles) {
