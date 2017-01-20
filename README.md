@@ -26,3 +26,8 @@
 ## 数据库
 
 1. MySQL 5.7.16
+
+## 文档链接
+
+1. 代码API：https://beiyoufx.github.io/teemo-api-doc
+2. wiki：https://github.com/beiyoufx/teemo/wiki
