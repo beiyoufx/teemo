@@ -12,6 +12,7 @@
 7. JSON组件：fastjson
 8. 任务调度：quartz
 9. 模板：jsp、freemarker
+10. 缓存组件：ehcache 2.5.3
 
 ## 前端
 
@@ -26,3 +27,8 @@
 ## 数据库
 
 1. MySQL 5.7.16
+
+## 文档链接
+
+1. 代码API：https://beiyoufx.github.io/teemo-api-doc
+2. wiki：https://github.com/beiyoufx/teemo/wiki
