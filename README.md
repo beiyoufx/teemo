@@ -12,6 +12,7 @@
 7. JSON组件：fastjson
 8. 任务调度：quartz
 9. 模板：jsp、freemarker
+10. 缓存组件：ehcache 2.5.3
 
 ## 前端
 
