@@ -55,13 +55,24 @@ public class ResourceService extends BaseService<Resource> {
 
         boolean hasKey = !StringUtil.isEmpty(resource.getResourceKey());
 
-        Resource parent = get(resource.getParentId());
+        Resource parent;
+        Long parentId = resource.getParentId();
+        if (parentId == null) {
+            parent = null;
+        } else {
+            parent = get(parentId);
+        }
         while(parent != null) {
             if(!StringUtil.isEmpty(parent.getResourceKey())) {
                 sb.insert(0, parent.getResourceKey() + ":");
                 hasKey = true;
             }
-            parent = get(parent.getParentId());
+            parentId = parent.getParentId();
+            if (parentId == null) {
+                parent = null;
+            } else {
+                parent = get(parentId);
+            }
         }
 
         // 如果用户没有声明资源标识，并且没有上级资源标识，那么就为空
