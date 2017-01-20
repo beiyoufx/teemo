@@ -49,6 +49,16 @@
         <level value="debug" />
         <appender-ref ref="CONSOLE" />
     </logger>
+    <!-- hibernate SQL分析 -->
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false">
+        <level value="trace" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
+    <!-- 切面分析 -->
+    <logger name="com.teemo.core.aop" additivity="false">
+        <level value="debug" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
 
     <!-- 基本日志级别为INFO -->
     <root>

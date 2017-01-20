@@ -12,4 +12,14 @@
             timeToLiveSeconds="180"
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120" />
+
+    <!-- 菜单缓存  没必要过期 -->
+    <cache name="sys-menus"
+           maxEntriesLocalHeap="10000"
+           overflowToDisk="false"
+           eternal="false"
+           diskPersistent="false"
+           timeToLiveSeconds="0"
+           timeToIdleSeconds="0"
+           statistics="true"/>
 </ehcache>
