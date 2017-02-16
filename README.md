@@ -33,11 +33,13 @@ Teemo是一个Java EE企业级通用开发框架，提供底层抽象和常用�
 ## 文档链接
 
 代码文档：
+
 https://beiyoufx.github.io/teemo-api-doc
 
 http://beiyoufx.oschina.io/teemo-api-doc/
 
-使用说明和开发指南
+使用说明和开发指南：
+
 https://github.com/beiyoufx/teemo/wiki
 
 http://git.oschina.net/beiyoufx/teemo/wikis/home
