@@ -92,7 +92,7 @@ public class CollectionToStringUserType implements UserType, ParameterizedType, 
         if (o == o1) {
             return true;
         }
-        if (o == null || o == null) {
+        if (o == null || o1 == null) {
             return false;
         }
 
