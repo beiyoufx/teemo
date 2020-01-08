@@ -6,6 +6,13 @@
     <packaging>war</packaging>
     <version>${project.version}</version>
     <name>teemo</name>
+    
+    <developers>
+        <developer>
+            <name>北有风雪</name>
+            <url>https://gitee.com/beiyoufx/teemo</url>
+        </developer>
+    </developers>
 
     <properties>
         <junit.version>4.11</junit.version>
