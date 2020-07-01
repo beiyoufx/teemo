@@ -131,7 +131,7 @@
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>2.2.0</version>
+            <version>2.3.2</version>
         </dependency>
 
         <!-- Druid是一个阿里巴巴开源的连接池 -->
